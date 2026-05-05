@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Commerce Solutions — Atlas Energy Bridge</title>
+<meta name="google-site-verification" content="r6o8ryswgmeGEUSx_Zb7DVx0AJ_og1nyOSFNL07Bw7I" />
+<link rel="icon" type="image/png" href="atlas-logo.png">
+<link rel="apple-touch-icon" href="atlas-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080807;
+  --deep: #0f0f0d;
+  --surface: #141412;
+  --card: #1a1a17;
+  --card2: #1f1f1c;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --gold: #c8a355;
+  --gold2: #e2c07a;
+  --gold3: #9a7535;
+  --gold-bg: rgba(200,163,85,0.08);
+  --white: #f2ede4;
+  --muted: #7a7870;
+  --light: #b8b3a8;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; line-height: 1.6; }
+*, *::before, *::after { cursor: none !important; }
+
+#cur { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; top: 0; left: 0; transition: width .15s, height .15s; }
+#cur-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(200,163,85,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; top: 0; left: 0; transition: width .2s, height .2s, border-color .2s; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 20px 64px; display: flex; align-items: center; justify-content: space-between; transition: background .4s; }
+nav.scrolled { background: rgba(8,8,7,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+.logo { text-decoration: none; display: flex; align-items: center; gap: 14px; }
+.logo-img { width: 40px; height: 40px; object-fit: contain; }
+.logo-text { display: flex; flex-direction: column; gap: 3px; }
+.logo-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--gold); letter-spacing: .06em; line-height: 1; }
+.logo-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.nav-links { display: flex; gap: 34px; list-style: none; }
+.nav-links a { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--gold2); }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); background: transparent; border: 1px solid var(--gold3); padding: 10px 22px; text-decoration: none; transition: all .3s; }
+.nav-btn:hover { background: var(--gold-bg); border-color: var(--gold); }
+
+/* HERO */
+.hero { min-height: 65vh; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 160px 64px 100px; border-bottom: 1px solid var(--border); }
+.hero-grain { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); pointer-events: none; }
+.hero-glow { position: absolute; top: -10%; right: 0; width: 60%; height: 110%; background: radial-gradient(ellipse 55% 65% at 65% 45%, rgba(200,163,85,0.06) 0%, transparent 65%); pointer-events: none; }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; z-index: 2; }
+.hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.hero-eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
+.hero-eyebrow-text { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); }
+.hero-back { display: flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); text-decoration: none; margin-bottom: 32px; transition: color .2s; }
+.hero-back:hover { color: var(--gold); }
+.hero-back::before { content: '←'; font-size: 14px; }
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(44px, 5vw, 72px); font-weight: 400; line-height: 1.05; margin-bottom: 24px; }
+h1 em { font-style: italic; color: var(--gold); }
+.hero-p { font-size: 16px; line-height: 1.85; color: var(--light); max-width: 520px; margin-bottom: 40px; }
+.hero-actions { display: flex; gap: 16px; }
+.btn-gold { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--black); background: var(--gold); border: none; padding: 14px 32px; text-decoration: none; transition: all .3s; display: inline-block; }
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
+.btn-outline { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold3); padding: 14px 32px; text-decoration: none; transition: all .3s; display: inline-block; }
+.btn-outline:hover { border-color: var(--gold); background: var(--gold-bg); }
+
+/* HERO RIGHT — live demo preview */
+.hero-preview { background: var(--surface); border: 1px solid var(--border2); padding: 32px; position: relative; overflow: hidden; }
+.hero-preview::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.preview-bar { display: flex; gap: 8px; margin-bottom: 24px; align-items: center; }
+.preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+.preview-dot.r { background: #ff5f57; }
+.preview-dot.y { background: #febc2e; }
+.preview-dot.g { background: #28c840; }
+.preview-url { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); background: var(--card); padding: 4px 12px; flex: 1; letter-spacing: .05em; }
+.preview-screen { background: var(--card); border: 1px solid var(--border); padding: 20px; }
+.preview-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.preview-logo { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--gold); }
+.preview-nav-links { display: flex; gap: 12px; }
+.preview-nav-link { width: 28px; height: 4px; background: var(--border2); border-radius: 2px; }
+.preview-hero { background: var(--deep); padding: 20px; margin-bottom: 12px; }
+.preview-hero-tag { width: 60px; height: 4px; background: var(--gold3); border-radius: 2px; margin-bottom: 8px; }
+.preview-hero-h { width: 140px; height: 8px; background: var(--light); border-radius: 2px; margin-bottom: 6px; opacity: .6; }
+.preview-hero-h2 { width: 100px; height: 8px; background: var(--gold); border-radius: 2px; margin-bottom: 12px; opacity: .5; }
+.preview-hero-p { width: 100%; height: 3px; background: var(--border2); border-radius: 2px; margin-bottom: 4px; }
+.preview-hero-btn { display: inline-block; width: 70px; height: 18px; background: var(--gold); border-radius: 2px; margin-top: 8px; opacity: .8; }
+.preview-products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.preview-product { background: var(--surface); border: 1px solid var(--border); padding: 8px; }
+.preview-product-img { width: 100%; height: 28px; background: var(--deep); margin-bottom: 6px; }
+.preview-product-name { width: 70%; height: 4px; background: var(--light); border-radius: 2px; margin-bottom: 4px; opacity: .4; }
+.preview-product-price { width: 40%; height: 4px; background: var(--gold3); border-radius: 2px; opacity: .6; }
+
+/* STATS */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+.stat { padding: 40px 36px; border-right: 1px solid var(--border); position: relative; overflow: hidden; transition: background .3s; }
+.stat:last-child { border-right: none; }
+.stat:hover { background: var(--card); }
+.stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform .4s; }
+.stat:hover::before { transform: scaleX(1); }
+.stat-val { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+.stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
+
+/* SHARED */
+.section { padding: 100px 64px; display: block; width: 100%; }
+.section-dark { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.s-eye { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.s-eye-line { width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.s-eye-text { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.s-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 3vw, 46px); font-weight: 400; line-height: 1.12; margin-bottom: 18px; }
+.s-title em { font-style: italic; color: var(--gold); }
+.s-body { font-size: 15px; line-height: 1.85; color: var(--light); max-width: 540px; }
+.gold-line { width: 44px; height: 1px; background: var(--gold); margin: 18px 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+/* COMPONENTS */
+.components-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.comp-card { background: var(--black); padding: 48px 40px; position: relative; overflow: hidden; transition: background .3s; }
+.comp-card:hover { background: var(--card); }
+.comp-card-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+.comp-card:hover .comp-card-bar { transform: scaleX(1); }
+.comp-num { font-family: 'Playfair Display', serif; font-size: 60px; font-weight: 400; color: rgba(200,163,85,0.08); line-height: 1; margin-bottom: 24px; transition: color .3s; }
+.comp-card:hover .comp-num { color: rgba(200,163,85,0.16); }
+.comp-icon { margin-bottom: 20px; color: var(--gold); }
+.comp-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; color: var(--white); margin-bottom: 14px; }
+.comp-text { font-size: 14px; line-height: 1.8; color: var(--muted); margin-bottom: 28px; }
+.comp-features { display: flex; flex-direction: column; gap: 9px; }
+.comp-feature { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.comp-feature::before { content: '—'; color: var(--gold3); flex-shrink: 0; font-size: 10px; margin-top: 2px; }
+
+/* PROCESS */
+.process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+.proc-step { background: var(--surface); padding: 40px 32px; position: relative; transition: background .3s; }
+.proc-step:hover { background: var(--card2); }
+.proc-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .3em; color: var(--gold3); margin-bottom: 20px; display: block; }
+.proc-title { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; }
+.proc-text { font-size: 13px; color: var(--muted); line-height: 1.75; }
+
+/* INCLUDED */
+.included-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); margin-top: 60px; }
+.inc-item { background: var(--black); padding: 28px 32px; display: flex; gap: 16px; align-items: flex-start; transition: background .3s; }
+.inc-item:hover { background: var(--card); }
+.inc-icon { width: 36px; height: 36px; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); margin-top: 2px; }
+.inc-title { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+.inc-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+/* WHO ITS FOR */
+.who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 60px; }
+.who-card { background: var(--surface); padding: 36px 32px; transition: background .3s; }
+.who-card:hover { background: var(--card2); }
+.who-title { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 10px; }
+.who-text { font-size: 13px; color: var(--muted); line-height: 1.75; }
+.who-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold3); padding: 4px 10px; display: inline-block; margin-bottom: 16px; }
+
+/* CTA */
+.cta-block { background: var(--card); border: 1px solid var(--border2); padding: 72px 64px; text-align: center; position: relative; overflow: hidden; }
+.cta-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.cta-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; color: var(--white); margin-bottom: 16px; }
+.cta-title em { font-style: italic; color: var(--gold); }
+.cta-text { font-size: 15px; color: var(--muted); line-height: 1.85; max-width: 560px; margin: 0 auto 40px; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.cta-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 32px; }
+.cta-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold3); border: 1px solid rgba(200,163,85,0.15); padding: 5px 12px; }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 36px 64px; display: flex; align-items: center; justify-content: space-between; background: var(--deep); }
+.f-logo { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold); letter-spacing: .06em; }
+.f-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: .1em; }
+.f-links { display: flex; gap: 26px; list-style: none; }
+.f-links a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+.f-links a:hover { color: var(--gold); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  *, *::before, *::after { cursor: auto !important; }
+  #cur, #cur-ring { display: none; }
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .nav-btn { font-size: 9px; padding: 8px 14px; }
+  .logo-name { font-size: 15px; }
+  .hero { padding: 110px 24px 60px; min-height: auto; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-preview { display: none; }
+  h1 { font-size: 38px; }
+  .hero-p { font-size: 14px; }
+  .hero-actions { flex-direction: column; }
+  .btn-gold, .btn-outline { text-align: center; }
+  .section { padding: 60px 24px; }
+  .section-dark { padding: 60px 24px; }
+  .two-col { grid-template-columns: 1fr; gap: 40px; }
+  .s-title { font-size: 28px; }
+  .components-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .included-grid { grid-template-columns: 1fr; }
+  .who-grid { grid-template-columns: 1fr; }
+  .dc-field input, .dc-field select, .dc-field textarea { font-size: 16px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+  .f-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .hero-back { font-size: 9px; }
+}
+
+/* ENQUIRY FORM */
+.dc-field { display: flex; flex-direction: column; gap: 6px; }
+.dc-field label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+.dc-field input, .dc-field select, .dc-field textarea { background: var(--card); border: 1px solid var(--border); color: var(--white); padding: 12px 15px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; outline: none; transition: border-color .25s; width: 100%; }
+.dc-field input::placeholder, .dc-field textarea::placeholder { color: var(--muted); }
+.dc-field input:focus, .dc-field select:focus, .dc-field textarea:focus { border-color: var(--gold3); }
+.dc-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7870' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; }
+option { background: var(--card); }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <img src="atlas-logo.png" alt="Atlas Energy Bridge" class="logo-img">
+    <div class="logo-text">
+      <span class="logo-name">Atlas Energy Bridge</span>
+      <span class="logo-tag">Digital Commerce Solutions</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#components">What's Included</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#who">Who It's For</a></li>
+    <li><a href="#enquire">Enquire</a></li>
+  </ul>
+  <a href="index.html" class="nav-btn">← Back to Main Site</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-grid">
+    <div>
+      <a href="index.html" class="hero-back">Back to Atlas Energy Bridge</a>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">White Label B2B E-Commerce</span>
+      </div>
+      <h1>Your Products.<br>Your Brand.<br><em>Our Platform.</em></h1>
+      <p class="hero-p">We build fully branded B2B e-commerce platforms for oil and gas suppliers — complete with an online store, web admin panel, and desktop management app. Your brand on the front. Our proven engine underneath. Ready to trade in days.</p>
+      <div class="hero-actions">
+        <a href="#enquire" class="btn-gold">Get a Quote</a>
+        <a href="#components" class="btn-outline">See What's Included</a>
+      </div>
+    </div>
+    <!-- Fake browser preview -->
+    <div class="hero-preview">
+      <div class="preview-bar">
+        <div class="preview-dot r"></div>
+        <div class="preview-dot y"></div>
+        <div class="preview-dot g"></div>
+        <div class="preview-url">yourcompany.com</div>
+      </div>
+      <div class="preview-screen">
+        <div class="preview-nav">
+          <div class="preview-logo">Your Brand</div>
+          <div class="preview-nav-links">
+            <div class="preview-nav-link"></div>
+            <div class="preview-nav-link"></div>
+            <div class="preview-nav-link"></div>
+          </div>
+        </div>
+        <div class="preview-hero">
+          <div class="preview-hero-tag"></div>
+          <div class="preview-hero-h"></div>
+          <div class="preview-hero-h2"></div>
+          <div class="preview-hero-p"></div>
+          <div class="preview-hero-p" style="width:85%"></div>
+          <div class="preview-hero-p" style="width:70%"></div>
+          <div class="preview-hero-btn"></div>
+        </div>
+        <div class="preview-products">
+          <div class="preview-product"><div class="preview-product-img"></div><div class="preview-product-name"></div><div class="preview-product-price"></div></div>
+          <div class="preview-product"><div class="preview-product-img"></div><div class="preview-product-name"></div><div class="preview-product-price"></div></div>
+          <div class="preview-product"><div class="preview-product-img"></div><div class="preview-product-name"></div><div class="preview-product-price"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<div id="components" class="section">
+  <div style="max-width:600px; margin-bottom:60px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">What's Included</span></div>
+    <h2 class="s-title">Three Components.<br><em>One Complete</em><br>Platform.</h2>
+    <p class="s-body">Every client receives all three components as a single package — a customer-facing store, a web admin panel, and a native desktop application. All branded to your company. All working together out of the box.</p>
+  </div>
+  <div class="components-grid">
+    <div class="comp-card">
+      <div class="comp-card-bar"></div>
+      <div class="comp-num">01</div>
+      <div class="comp-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="comp-title">Your Branded Store</div>
+      <p class="comp-text">A fully functional B2B e-commerce storefront built and branded entirely to your company. Your logo, colours, and products. Customers can browse, search, and order directly online.</p>
+      <div class="comp-features">
+        <div class="comp-feature">Full product catalogue with search, filters, and autocomplete</div>
+        <div class="comp-feature">Individual product pages with specs, stock, and pricing</div>
+        <div class="comp-feature">Cart, checkout and Purchase Order flow</div>
+        <div class="comp-feature">Customer and company accounts with NET 30/60/90 terms</div>
+        <div class="comp-feature">Quote request system with admin reply</div>
+        <div class="comp-feature">Multi-currency — USD, AED, GBP, EUR, SAR</div>
+        <div class="comp-feature">Automated email notifications for every event</div>
+        <div class="comp-feature">Order history, account management, team invites</div>
+      </div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-card-bar"></div>
+      <div class="comp-num">02</div>
+      <div class="comp-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div class="comp-title">Web Admin Panel</div>
+      <p class="comp-text">A powerful browser-based admin panel giving you full control of your store — manage products, process orders, handle quotes, and track revenue from anywhere in the world.</p>
+      <div class="comp-features">
+        <div class="comp-feature">Analytics — revenue, orders, top products, orders by country</div>
+        <div class="comp-feature">Full product management — add, edit, stock levels, toggles</div>
+        <div class="comp-feature">Order management with status tracking and history timeline</div>
+        <div class="comp-feature">Quote pipeline — send branded quotes directly to customers</div>
+        <div class="comp-feature">Company account approvals and team management</div>
+        <div class="comp-feature">Customer database with full spend and order history</div>
+        <div class="comp-feature">Export orders and customer data to CSV</div>
+        <div class="comp-feature">Live activity feed and order status notifications</div>
+      </div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-card-bar"></div>
+      <div class="comp-num">03</div>
+      <div class="comp-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 4v16M2 9h6"/></svg>
+      </div>
+      <div class="comp-title">Desktop Admin App</div>
+      <p class="comp-text">A native Windows desktop application branded to your company — giving your team a dedicated, professional tool to manage the entire operation without opening a browser.</p>
+      <div class="comp-features">
+        <div class="comp-feature">Branded login screen with your logo and colours</div>
+        <div class="comp-feature">Full admin panel in a native desktop window</div>
+        <div class="comp-feature">Custom minimize, maximize and close controls</div>
+        <div class="comp-feature">Auto-updater — always on the latest version automatically</div>
+        <div class="comp-feature">No OS titlebar — completely custom interface</div>
+        <div class="comp-feature">Delivered as an installable Windows application (.exe)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALSO INCLUDED -->
+<div class="section section-dark">
+  <div style="max-width:560px; margin-bottom:0;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Everything Else Included</span></div>
+    <h2 class="s-title">The Infrastructure<br>is <em>Already Built.</em></h2>
+    <p class="s-body">Behind your branded platform sits a complete, production-ready technical infrastructure. You don't need a developer, a server, or a technical team. We handle everything and hand you the keys.</p>
+  </div>
+  <div class="included-grid">
+    <div class="inc-item">
+      <div class="inc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+      <div><div class="inc-title">Database & Storage</div><div class="inc-text">PostgreSQL database hosted on Supabase. All your products, orders, customers, and data stored securely and backed up automatically.</div></div>
+    </div>
+    <div class="inc-item">
+      <div class="inc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+      <div><div class="inc-title">Payment Processing</div><div class="inc-text">Stripe integration for card payments and Purchase Order management. Secure, reliable, and globally trusted payment infrastructure.</div></div>
+    </div>
+    <div class="inc-item">
+      <div class="inc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div><div class="inc-title">Email Notifications</div><div class="inc-text">Automated branded emails for every event — new orders, quote requests, company applications, order status changes, and cancellations.</div></div>
+    </div>
+    <div class="inc-item">
+      <div class="inc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div><div class="inc-title">Hosting & Deployment</div><div class="inc-text">Store and admin panel deployed on Vercel under your own domain. Fast, globally distributed, and always on.</div></div>
+    </div>
+    <div class="inc-item">
+      <div class="inc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="inc-title">Product Upload</div><div class="inc-text">We upload your entire product catalogue — names, descriptions, specifications, pricing, stock levels, and images — ready for day one.</div></div>
+    </div>
+    <div class="inc-item">
+      <div class="inc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><div class="inc-title">Full Handover & Training</div><div class="inc-text">Complete handover of admin credentials, documentation, and a walkthrough of the full platform so your team can operate it independently from day one.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="process" class="section">
+  <div style="max-width:560px; margin-bottom:60px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">The Process</span></div>
+    <h2 class="s-title">From Brief to<br><em>Live Store</em> in Days.</h2>
+  </div>
+  <div class="process-grid">
+    <div class="proc-step">
+      <span class="proc-num">STEP 01</span>
+      <div class="proc-title">Brand Brief</div>
+      <p class="proc-text">You provide your logo, brand colours, product catalogue, and any specific requirements. Our designers take it from there — no technical knowledge needed on your side.</p>
+    </div>
+    <div class="proc-step">
+      <span class="proc-num">STEP 02</span>
+      <div class="proc-title">Design & Build</div>
+      <p class="proc-text">We apply your branding across the store, admin panel, and desktop app. Your products are uploaded, priced, and configured exactly to your specifications.</p>
+    </div>
+    <div class="proc-step">
+      <span class="proc-num">STEP 03</span>
+      <div class="proc-title">Review & Refine</div>
+      <p class="proc-text">You review the complete platform before anything goes live. We refine until you are completely satisfied with every detail — no limits on revisions.</p>
+    </div>
+    <div class="proc-step">
+      <span class="proc-num">STEP 04</span>
+      <div class="proc-title">Live & Trading</div>
+      <p class="proc-text">We deploy to your domain, hand over your admin credentials, and your store goes live. You can start taking orders the same day.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHO ITS FOR -->
+<div id="who" class="section section-dark">
+  <div style="max-width:560px; margin-bottom:60px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Who It's For</span></div>
+    <h2 class="s-title">Built for Oil & Gas<br><em>Suppliers & Manufacturers</em></h2>
+    <p class="s-body">If your company sells products to operators, service companies, or drilling contractors — and you are still managing orders by phone, email, or spreadsheet — this platform was built for you.</p>
+  </div>
+  <div class="who-grid">
+    <div class="who-card">
+      <div class="who-tag">Drill Bit Manufacturers</div>
+      <div class="who-title">PDC, Tricone & Specialty Bits</div>
+      <p class="who-text">Sell your full drill bit catalogue online with detailed specs, IADC codes, condition filters, and real-time stock levels. Let operators find and order the exact bit they need.</p>
+    </div>
+    <div class="who-card">
+      <div class="who-tag">Equipment Suppliers</div>
+      <div class="who-title">Pumps, Valves & Hardware</div>
+      <p class="who-text">List your full equipment range with technical specifications and pricing. Manage bulk orders, Purchase Orders, and company account terms — all in one place.</p>
+    </div>
+    <div class="who-card">
+      <div class="who-tag">Chemical Distributors</div>
+      <div class="who-title">Drilling & Completion Fluids</div>
+      <p class="who-text">Manage chemical product lines with variants, volumes, and hazard documentation. Handle reorder requests and company accounts with NET payment terms.</p>
+    </div>
+    <div class="who-card">
+      <div class="who-tag">Safety & PPE Suppliers</div>
+      <div class="who-title">Personal Protective Equipment</div>
+      <p class="who-text">Run a full B2B safety equipment store with size variants, bulk pricing, and company accounts. Let your clients order PPE for their teams directly online.</p>
+    </div>
+    <div class="who-card">
+      <div class="who-tag">Completion Suppliers</div>
+      <div class="who-title">Wellbore Completion Products</div>
+      <p class="who-text">List completion tools and accessories with full technical specs. Manage quotes, special pricing, and company-specific terms through the admin panel.</p>
+    </div>
+    <div class="who-card">
+      <div class="who-tag">Any O&G Supplier</div>
+      <div class="who-title">Your Products, Online</div>
+      <p class="who-text">Whatever you sell into the oil and gas sector, if your customers are still ordering the old way, this platform gives you the edge. Modern, fast, and built for your industry.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ENQUIRE / CTA -->
+<div id="enquire" class="section">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start;">
+
+    <!-- Left: text -->
+    <div>
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Get Started</span></div>
+      <h2 class="s-title">Ready to Take Your<br><em>Products Online?</em></h2>
+      <div class="gold-line"></div>
+      <p class="s-body">Get in touch with the Atlas Energy Bridge team. We will walk you through the platform, answer your questions, and provide a quote based on your product catalogue and branding needs.</p>
+      <div style="margin-top:40px; display:flex; flex-direction:column; gap:1px; background:var(--border);">
+        <div style="background:var(--card); padding:22px 24px; border-left:2px solid var(--gold);">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:6px;">What Happens Next</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">We review your enquiry and get back to you within 24 hours with a tailored quote and a walkthrough of the platform.</div>
+        </div>
+        <div style="background:var(--surface); padding:22px 24px;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold3); margin-bottom:6px;">Email Us Directly</div>
+          <div style="font-size:13px; color:var(--muted);">info@atlasenergybridge.com</div>
+        </div>
+      </div>
+      <div style="margin-top:32px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); margin-bottom:14px;">Everything Included</div>
+        <div style="display:flex; flex-wrap:wrap; gap:7px;">
+          <span class="cta-tag">Branded Store</span>
+          <span class="cta-tag">Web Admin Panel</span>
+          <span class="cta-tag">Desktop App</span>
+          <span class="cta-tag">Product Upload</span>
+          <span class="cta-tag">Payment Processing</span>
+          <span class="cta-tag">Email Notifications</span>
+          <span class="cta-tag">Company Accounts</span>
+          <span class="cta-tag">Quote System</span>
+          <span class="cta-tag">Analytics</span>
+          <span class="cta-tag">Full Handover</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: form -->
+    <div>
+      <form id="dc-form" action="https://formspree.io/f/xojylwpq" method="POST" style="display:flex; flex-direction:column; gap:14px;">
+        <input type="hidden" name="enquiry_type" value="Digital Commerce Platform">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div class="dc-field"><label>First Name</label><input type="text" name="first_name" placeholder="John" required></div>
+          <div class="dc-field"><label>Last Name</label><input type="text" name="last_name" placeholder="Smith" required></div>
+        </div>
+        <div class="dc-field"><label>Company</label><input type="text" name="company" placeholder="Your Company Name" required></div>
+        <div class="dc-field"><label>Email Address</label><input type="email" name="email" placeholder="john@company.com" required></div>
+        <div class="dc-field"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+971 xx xxx xxxx"></div>
+        <div class="dc-field">
+          <label>Product Type</label>
+          <select name="product_type">
+            <option value="">What do you sell?</option>
+            <option>Drill Bits</option>
+            <option>Oilfield Equipment</option>
+            <option>Chemicals & Fluids</option>
+            <option>Safety & PPE</option>
+            <option>Completion Tools</option>
+            <option>Other O&G Products</option>
+          </select>
+        </div>
+        <div class="dc-field">
+          <label>Approximate Number of Products</label>
+          <select name="product_count">
+            <option value="">Select range...</option>
+            <option>1 — 25 products</option>
+            <option>26 — 100 products</option>
+            <option>101 — 500 products</option>
+            <option>500+ products</option>
+          </select>
+        </div>
+        <div class="dc-field"><label>Tell us about your business</label><textarea name="message" placeholder="Describe your products, your customers, and what you're looking to achieve..." style="min-height:110px; resize:vertical;"></textarea></div>
+        <button type="submit" id="dc-submit" class="btn-gold" style="align-self:flex-start; margin-top:4px; border:none;">Send Enquiry</button>
+        <div id="dc-success" style="display:none; padding:24px 28px; border:1px solid var(--gold3); background:var(--gold-bg);">
+          <div style="font-family:'Playfair Display',serif; font-size:20px; color:var(--gold); margin-bottom:8px;">Request Sent</div>
+          <div style="font-size:14px; color:var(--light); line-height:1.7;">Thank you for reaching out. A member of the Atlas Energy Bridge team will be in touch within 24 hours.</div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+    <img src="atlas-logo.png" alt="Atlas Energy Bridge" style="width: 32px; height: 32px; object-fit: contain;">
+    <span class="f-logo">Atlas Energy Bridge</span>
+  </a>
+  <span class="f-copy">© 2025 Atlas Energy Bridge. All Rights Reserved.</span>
+  <ul class="f-links">
+    <li><a href="index.html">Main Site</a></li>
+    <li><a href="freezone-warehousing.html">Freezone Warehousing</a></li>
+    <li><a href="#components">What's Included</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<script>
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = (mx - 4) + 'px';
+  cur.style.top = (my - 4) + 'px';
+});
+(function loop() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = (rx - 18) + 'px'; ring.style.top = (ry - 18) + 'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a, button, .comp-card, .who-card, .proc-step, .inc-item, .stat').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.width='14px'; cur.style.height='14px'; ring.style.width='50px'; ring.style.height='50px'; ring.style.borderColor='rgba(200,163,85,0.7)'; });
+  el.addEventListener('mouseleave', () => { cur.style.width='8px'; cur.style.height='8px'; ring.style.width='36px'; ring.style.height='36px'; ring.style.borderColor='rgba(200,163,85,0.4)'; });
+});
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+
+// Form submission
+const dcForm = document.getElementById('dc-form');
+dcForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('dc-submit');
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+  try {
+    const res = await fetch(dcForm.action, {
+      method: 'POST',
+      body: new FormData(dcForm),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      dcForm.querySelectorAll('.dc-field, div[style*="grid"], #dc-submit').forEach(el => el.style.display = 'none');
+      document.getElementById('dc-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Send Enquiry';
+      btn.style.opacity = '1';
+      alert('Something went wrong. Please try again.');
+    }
+  } catch {
+    btn.textContent = 'Send Enquiry';
+    btn.style.opacity = '1';
+    alert('Something went wrong. Please try again.');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Energy Bridge — Your Agent in GCC & MENA Energy Markets</title>
+<meta name="google-site-verification" content="r6o8ryswgmeGEUSx_Zb7DVx0AJ_og1nyOSFNL07Bw7I" />
+<link rel="icon" type="image/png" href="atlas-logo.png">
+<link rel="apple-touch-icon" href="atlas-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080807;
+  --deep: #0f0f0d;
+  --surface: #141412;
+  --card: #1a1a17;
+  --card2: #1f1f1c;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --gold: #c8a355;
+  --gold2: #e2c07a;
+  --gold3: #9a7535;
+  --gold-bg: rgba(200,163,85,0.08);
+  --white: #f2ede4;
+  --muted: #7a7870;
+  --light: #b8b3a8;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; line-height: 1.6; }
+*, *::before, *::after { cursor: none !important; }
+
+#cur { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; top: 0; left: 0; transition: width .15s, height .15s; }
+#cur-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(200,163,85,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; top: 0; left: 0; transition: width .2s, height .2s, border-color .2s; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 22px 64px; display: flex; align-items: center; justify-content: space-between; transition: background .4s; }
+nav.scrolled { background: rgba(8,8,7,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+.logo { text-decoration: none; display: flex; align-items: center; gap: 14px; }
+.logo-img { width: 44px; height: 44px; object-fit: contain; }
+.logo-text { display: flex; flex-direction: column; gap: 3px; }
+.logo-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--gold); letter-spacing: .06em; line-height: 1; }
+.logo-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--gold2); }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); background: transparent; border: 1px solid var(--gold3); padding: 11px 24px; text-decoration: none; transition: all .3s; }
+.nav-btn:hover { background: var(--gold-bg); border-color: var(--gold); }
+
+/* MOBILE NAV */
+.mobile-toggle { display: none; flex-direction: column; gap: 4px; padding: 8px; background: transparent; border: none; }
+.mobile-toggle span { display: block; width: 22px; height: 1.5px; background: var(--gold); transition: all .3s; }
+.mobile-menu { display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 100%; background: var(--black); z-index: 199; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+.mobile-menu a { font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: .2em; text-transform: uppercase; color: var(--white); text-decoration: none; }
+.mobile-menu a.mobile-cta { color: var(--gold); border: 1px solid var(--gold3); padding: 14px 32px; }
+
+/* HERO — full bleed with overlay text */
+.hero { position: relative; min-height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 0; }
+.hero-bg { position: absolute; inset: 0; background: linear-gradient(120deg, var(--black) 0%, var(--deep) 50%, var(--surface) 100%); }
+.hero-grain { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; }
+.hero-glow { position: absolute; top: 10%; right: -10%; width: 70%; height: 90%; background: radial-gradient(ellipse 60% 70% at 60% 50%, rgba(200,163,85,0.08) 0%, transparent 65%); pointer-events: none; }
+.hero-glow2 { position: absolute; bottom: -20%; left: -10%; width: 50%; height: 70%; background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(154,117,53,0.06) 0%, transparent 70%); pointer-events: none; }
+
+.hero-decor { position: absolute; inset: 0; pointer-events: none; opacity: 0.6; }
+.hero-line-h { position: absolute; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,163,85,0.15), transparent); }
+.hero-line-v { position: absolute; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent, rgba(200,163,85,0.1), transparent); }
+
+.hero-content { position: relative; z-index: 2; padding: 0 64px 120px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.hero-tagline-top { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; opacity: 0; animation: fadeUp .8s .1s forwards; padding-top: 200px; }
+.hero-tagline-top-line { width: 40px; height: 1px; background: var(--gold); }
+.hero-tagline-top-text { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); }
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(56px, 8vw, 120px); font-weight: 400; line-height: 0.98; margin-bottom: 36px; letter-spacing: -0.02em; opacity: 0; animation: fadeUp .9s .25s forwards; max-width: 1100px; }
+h1 em { font-style: italic; color: var(--gold); }
+.hero-grid-bottom { display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; align-items: end; opacity: 0; animation: fadeUp .8s .45s forwards; }
+.hero-p { font-size: 17px; line-height: 1.7; color: var(--light); max-width: 540px; }
+.hero-meta { display: flex; flex-direction: column; gap: 18px; padding-left: 32px; border-left: 1px solid var(--border2); }
+.hero-meta-row { display: flex; align-items: center; gap: 16px; }
+.hero-meta-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); min-width: 70px; }
+.hero-meta-val { font-size: 13px; color: var(--gold); font-weight: 500; }
+.hero-actions { display: flex; gap: 16px; margin-top: 56px; flex-wrap: wrap; opacity: 0; animation: fadeUp .8s .65s forwards; }
+.btn-gold { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--black); background: var(--gold); border: none; padding: 16px 36px; text-decoration: none; transition: all .3s; display: inline-block; cursor: none; }
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
+.btn-outline { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold3); padding: 16px 36px; text-decoration: none; transition: all .3s; display: inline-block; background: transparent; }
+.btn-outline:hover { border-color: var(--gold); background: var(--gold-bg); }
+
+/* TRUST STRIP — between hero and rest */
+.trust-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+.trust { padding: 36px 36px; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; transition: background .3s; position: relative; overflow: hidden; }
+.trust:last-child { border-right: none; }
+.trust:hover { background: var(--card); }
+.trust::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+.trust:hover::before { transform: scaleX(1); }
+.trust-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--gold); line-height: 1; }
+.trust-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+/* SHARED */
+.section { padding: 120px 64px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.section-dark { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.section-dark .section-inner { max-width: 1400px; margin: 0 auto; padding: 120px 64px; }
+.s-eye { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.s-eye-line { width: 32px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.s-eye-text { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); }
+.s-title { font-family: 'Playfair Display', serif; font-size: clamp(38px, 4vw, 60px); font-weight: 400; line-height: 1.08; margin-bottom: 24px; letter-spacing: -0.01em; }
+.s-title em { font-style: italic; color: var(--gold); }
+.s-body { font-size: 16px; line-height: 1.85; color: var(--light); max-width: 580px; }
+.gold-line { width: 56px; height: 1px; background: var(--gold); margin: 24px 0; }
+
+/* WHO WE ARE — split with floating gold accent */
+.about-wrap { display: grid; grid-template-columns: 1fr 1.1fr; gap: 100px; align-items: center; }
+.about-visual { position: relative; aspect-ratio: 4/5; }
+.about-visual-frame { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,163,85,0.04) 0%, transparent 50%, rgba(200,163,85,0.06) 100%); border: 1px solid var(--gold3); overflow: hidden; }
+.about-visual-frame::before { content: ''; position: absolute; top: 24px; left: 24px; right: 24px; bottom: 24px; border: 1px solid var(--gold3); opacity: 0.4; }
+.about-svg-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.about-tag-floating { position: absolute; bottom: -32px; right: -32px; background: var(--gold); padding: 24px 32px; }
+.about-tag-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 400; color: var(--black); line-height: 1; margin-bottom: 4px; }
+.about-tag-text { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: rgba(0,0,0,0.7); }
+
+.pillars-modern { margin-top: 48px; display: grid; grid-template-columns: 1fr; gap: 0; }
+.pillar-modern { padding: 28px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: start; transition: padding .3s; }
+.pillar-modern:last-child { border-bottom: none; }
+.pillar-modern:hover { padding-left: 12px; }
+.pm-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; color: var(--gold3); line-height: 1; }
+.pm-content { display: flex; flex-direction: column; gap: 6px; }
+.pm-title { font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: 0.02em; }
+.pm-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
+
+/* WAREHOUSE SHOWCASE — large image with floating data */
+.warehouse-section { position: relative; padding: 0; }
+.warehouse-hero { position: relative; height: 80vh; min-height: 600px; overflow: hidden; }
+.warehouse-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55) contrast(1.1) saturate(0.9); }
+.warehouse-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,8,7,0.85) 0%, rgba(8,8,7,0.5) 50%, rgba(8,8,7,0.7) 100%); }
+.warehouse-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 64px; max-width: 1400px; margin: 0 auto; left: 0; right: 0; }
+.warehouse-eye { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.warehouse-eye-line { width: 32px; height: 1px; background: var(--gold); }
+.warehouse-eye-text { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .4em; text-transform: uppercase; color: var(--gold); }
+.warehouse-title { font-family: 'Playfair Display', serif; font-size: clamp(44px, 5vw, 72px); font-weight: 400; line-height: 1.05; max-width: 800px; margin-bottom: 24px; letter-spacing: -0.01em; }
+.warehouse-title em { font-style: italic; color: var(--gold); }
+.warehouse-sub { font-size: 16px; color: var(--light); max-width: 560px; line-height: 1.8; margin-bottom: 40px; }
+.warehouse-loc-tag { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); background: rgba(200,163,85,0.1); border: 1px solid var(--gold3); padding: 8px 16px; }
+
+.warehouse-features { background: var(--black); border-top: 1px solid var(--border); padding: 80px 64px; max-width: 1400px; margin: 0 auto; }
+.wf-head { margin-bottom: 60px; max-width: 580px; }
+.wf-head h3 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; line-height: 1.15; }
+.wf-head h3 em { font-style: italic; color: var(--gold); }
+.wf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.wf-item { background: var(--black); padding: 32px 28px; transition: background .3s; }
+.wf-item:hover { background: var(--card); }
+.wf-icon { width: 36px; height: 36px; border: 1px solid var(--gold3); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--gold); }
+.wf-title { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 8px; letter-spacing: 0.02em; }
+.wf-text { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* MARKETS — redesigned with cleaner cards */
+.markets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.markets-text { position: sticky; top: 100px; }
+.markets-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.mc { background: var(--surface); padding: 32px 28px; transition: background .3s; position: relative; }
+.mc:hover { background: var(--card); }
+.mc.featured { background: var(--card2); border-left: 2px solid var(--gold); }
+.mc-flag { font-size: 22px; margin-bottom: 12px; display: block; line-height: 1; }
+.mc-country { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 4px; letter-spacing: 0.02em; }
+.mc-status { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mc-status::before { content: '● '; font-size: 7px; }
+.mc-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+/* SERVICES — bigger feature cards with imagery */
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 60px; }
+.svc-feature { background: var(--surface); padding: 56px 48px; position: relative; overflow: hidden; transition: background .3s; }
+.svc-feature:hover { background: var(--card2); }
+.svc-feature-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+.svc-feature:hover .svc-feature-bar { transform: scaleX(1); }
+.svc-num-big { font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 400; color: rgba(200,163,85,0.12); line-height: 1; margin-bottom: 24px; transition: color .3s; }
+.svc-feature:hover .svc-num-big { color: rgba(200,163,85,0.22); }
+.svc-feature-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; color: var(--white); margin-bottom: 16px; }
+.svc-feature-text { font-size: 14px; line-height: 1.85; color: var(--muted); margin-bottom: 28px; }
+.svc-feature-list { display: flex; flex-direction: column; gap: 10px; padding-top: 24px; border-top: 1px solid var(--border); }
+.svc-feature-item { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--light); }
+.svc-feature-item::before { content: '—'; color: var(--gold3); font-size: 11px; }
+
+/* WHY US — modern columns */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 60px; }
+.why { background: var(--black); padding: 44px 36px; transition: background .3s; }
+.why:hover { background: var(--surface); }
+.why-icon-wrap { width: 48px; height: 48px; border: 1px solid var(--gold3); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: var(--gold); }
+.why-title { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; letter-spacing: 0.02em; }
+.why-text { font-size: 13px; line-height: 1.75; color: var(--muted); }
+
+/* PROCESS — timeline */
+.process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 70px; position: relative; }
+.process-grid::before { content: ''; position: absolute; top: 25px; left: 12%; right: 12%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold3), var(--gold3), transparent); }
+.proc { padding: 0 24px; text-align: center; }
+.proc-c { width: 50px; height: 50px; border: 1px solid var(--gold3); display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; background: var(--surface); position: relative; z-index: 1; }
+.proc-r { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); font-weight: 500; }
+.proc-t { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 12px; letter-spacing: 0.02em; }
+.proc-x { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* CTA BLOCK */
+.cta-final { background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); border: 1px solid var(--gold3); padding: 72px 64px; text-align: center; position: relative; overflow: hidden; margin-top: 60px; }
+.cta-final::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.cta-final-eye { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.cta-final-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 4vw, 56px); font-weight: 400; color: var(--white); margin-bottom: 20px; line-height: 1.1; }
+.cta-final-title em { font-style: italic; color: var(--gold); }
+.cta-final-text { font-size: 15px; line-height: 1.85; color: var(--muted); max-width: 580px; margin: 0 auto 40px; }
+.cta-final-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* CONTACT */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+.field input, .field select, .field textarea { background: var(--card); border: 1px solid var(--border); color: var(--white); padding: 14px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; outline: none; transition: border-color .25s; width: 100%; }
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold3); }
+.field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7870' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+.field textarea { resize: vertical; min-height: 110px; }
+option { background: var(--card); }
+.ci { padding: 22px 0; border-bottom: 1px solid var(--border); display: flex; gap: 18px; align-items: flex-start; }
+.ci:first-child { border-top: 1px solid var(--border); }
+.ci-icon { width: 40px; height: 40px; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); }
+.ci-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.ci-val { font-size: 14px; color: var(--light); }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 36px 64px; display: flex; align-items: center; justify-content: space-between; background: var(--deep); }
+.f-logo { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold); letter-spacing: .06em; }
+.f-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: .1em; }
+.f-links { display: flex; gap: 28px; list-style: none; }
+.f-links a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+.f-links a:hover { color: var(--gold); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes dot-pulse { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
+@keyframes spin1 { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+/* MOBILE */
+@media (max-width: 1024px) {
+  nav { padding: 18px 32px; }
+  .hero-content { padding: 0 32px 80px; }
+  .section { padding: 80px 32px; }
+  .section-dark .section-inner { padding: 80px 32px; }
+  .warehouse-content { padding: 0 32px; }
+  .warehouse-features { padding: 60px 32px; }
+  footer { padding: 32px; }
+}
+
+@media (max-width: 768px) {
+  *, *::before, *::after { cursor: auto !important; }
+  #cur, #cur-ring { display: none; }
+  nav { padding: 16px 24px; }
+  .nav-links, .nav-btn { display: none; }
+  .mobile-toggle { display: flex; }
+  .mobile-menu.open { display: flex; }
+  .logo-img { width: 36px; height: 36px; }
+  .logo-name { font-size: 15px; }
+  .logo-tag { font-size: 8px; }
+  .hero { min-height: 90vh; }
+  .hero-content { padding: 0 24px 60px; }
+  .hero-tagline-top { padding-top: 120px; margin-bottom: 24px; }
+  h1 { font-size: 44px; }
+  .hero-grid-bottom { grid-template-columns: 1fr; gap: 32px; }
+  .hero-meta { padding-left: 0; border-left: none; padding-top: 24px; border-top: 1px solid var(--border2); }
+  .hero-actions { margin-top: 32px; }
+  .btn-gold, .btn-outline { padding: 14px 24px; text-align: center; flex: 1; min-width: 140px; }
+  .trust-strip { grid-template-columns: 1fr 1fr; }
+  .trust { border-bottom: 1px solid var(--border); padding: 28px 24px; }
+  .trust:nth-child(2) { border-right: none; }
+  .trust-num { font-size: 28px; }
+  .section { padding: 60px 24px; }
+  .section-dark .section-inner { padding: 60px 24px; }
+  .s-title { font-size: 32px; }
+  .about-wrap { grid-template-columns: 1fr; gap: 60px; }
+  .about-visual { aspect-ratio: 4/4; max-width: 400px; margin: 0 auto; }
+  .warehouse-hero { height: 70vh; min-height: 500px; }
+  .warehouse-content { padding: 0 24px; }
+  .warehouse-title { font-size: 32px; }
+  .warehouse-features { padding: 50px 24px; }
+  .wf-grid { grid-template-columns: 1fr; }
+  .markets-grid { grid-template-columns: 1fr; gap: 40px; }
+  .markets-text { position: static; }
+  .markets-cards { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .svc-feature { padding: 40px 28px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .process-grid::before { display: none; }
+  .cta-final { padding: 48px 24px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+  .field input, .field select, .field textarea { font-size: 16px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+  .f-links { flex-wrap: wrap; justify-content: center; gap: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <img src="atlas-logo.png" alt="Atlas Energy Bridge" class="logo-img">
+    <div class="logo-text">
+      <span class="logo-name">Atlas Energy Bridge</span>
+      <span class="logo-tag">GCC · MENA · Global</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#facilities">Facilities</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="digital-commerce.html">Digital Commerce</a></li>
+    <li><a href="freezone-warehousing.html">Freezone Warehousing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Partner With Us</a>
+  <button class="mobile-toggle" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#facilities" onclick="closeMobile()">Facilities</a>
+  <a href="#markets" onclick="closeMobile()">Markets</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="digital-commerce.html">Digital Commerce</a>
+  <a href="freezone-warehousing.html">Freezone Warehousing</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#contact" class="mobile-cta" onclick="closeMobile()">Partner With Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-decor">
+    <div class="hero-line-h" style="top: 25%"></div>
+    <div class="hero-line-h" style="top: 75%"></div>
+    <div class="hero-line-v" style="left: 30%"></div>
+    <div class="hero-line-v" style="left: 70%"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tagline-top">
+      <div class="hero-tagline-top-line"></div>
+      <span class="hero-tagline-top-text">Established 2022 · Dubai Headquartered</span>
+    </div>
+    <h1>Your Agent.<br>On the <em>Ground.</em><br>In the Room.</h1>
+    <div class="hero-grid-bottom">
+      <p class="hero-p">Atlas Energy Bridge is the in-country agent for international oil and gas companies operating across Libya, the UAE, Saudi Arabia, Qatar, Oman, and Kuwait. We open doors, secure contracts, and run operations on the ground — so you don't have to navigate these markets alone.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-row">
+          <span class="hero-meta-label">HQ</span>
+          <span class="hero-meta-val">Dubai, UAE</span>
+        </div>
+        <div class="hero-meta-row">
+          <span class="hero-meta-label">Primary</span>
+          <span class="hero-meta-val">Libya — Benghazi</span>
+        </div>
+        <div class="hero-meta-row">
+          <span class="hero-meta-label">Coverage</span>
+          <span class="hero-meta-val">GCC & MENA</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-gold">Partner With Us</a>
+      <a href="#facilities" class="btn-outline">View Our Facilities</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust">
+    <div class="trust-num">24/7</div>
+    <div class="trust-label">On-Site Security<br>& Monitoring</div>
+  </div>
+  <div class="trust">
+    <div class="trust-num">100%</div>
+    <div class="trust-label">Insured Warehousing<br>& Operations</div>
+  </div>
+  <div class="trust">
+    <div class="trust-num">NOC</div>
+    <div class="trust-label">Direct Government<br>Access · Libya</div>
+  </div>
+  <div class="trust">
+    <div class="trust-num">6+</div>
+    <div class="trust-label">Active Markets<br>Across MENA</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="section">
+  <div class="about-wrap">
+    <div class="about-visual">
+      <div class="about-visual-frame">
+        <div class="about-svg-wrap">
+          <img src="atlas-logo.png" alt="Atlas Energy Bridge logo" style="width: 70%; max-width: 380px;">
+        </div>
+      </div>
+      <div class="about-tag-floating">
+        <div class="about-tag-num">2022</div>
+        <div class="about-tag-text">Established</div>
+      </div>
+    </div>
+    <div>
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Who We Are</span></div>
+      <h2 class="s-title">The Bridge<br>Between <em>Global Energy</em><br>and Local Reality.</h2>
+      <div class="gold-line"></div>
+      <p class="s-body">Atlas Energy Bridge was established in 2022 as the dedicated commercial agent for oil and gas companies that need real access to GCC and MENA markets. Headquartered in Dubai with our primary operational base in Benghazi, Libya, we represent international operators, service companies, and manufacturers directly with governments, national oil companies, and local decision makers.<br><br>In these markets, who you know and how you operate on the ground decides whether business gets done. We are the agent that gets it done.</p>
+      <div class="pillars-modern">
+        <div class="pillar-modern">
+          <div class="pm-num">01</div>
+          <div class="pm-content">
+            <div class="pm-title">We Represent You Directly</div>
+            <div class="pm-text">Exclusive in-country representation — we deal with NOC, governments, operators, and buyers on your behalf, every day, on the ground.</div>
+          </div>
+        </div>
+        <div class="pillar-modern">
+          <div class="pm-num">02</div>
+          <div class="pm-content">
+            <div class="pm-title">We Own the Infrastructure</div>
+            <div class="pm-text">Multi-location warehousing, full logistics team, customs network, and a trusted in-country team — operational from day one.</div>
+          </div>
+        </div>
+        <div class="pillar-modern">
+          <div class="pm-num">03</div>
+          <div class="pm-content">
+            <div class="pm-title">We Cover the Region</div>
+            <div class="pm-text">From Libya to Kuwait — one agent across six markets. Single agreement, single point of contact, single team that delivers across MENA.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FACILITIES / WAREHOUSE SHOWCASE -->
+<div id="facilities" class="warehouse-section">
+  <div class="warehouse-hero">
+    <img src="warehouse-1.jpg" alt="Atlas Energy Bridge warehouse facility in Benghazi, Libya" class="warehouse-img">
+    <div class="warehouse-overlay"></div>
+    <div class="warehouse-content">
+      <div class="warehouse-eye">
+        <div class="warehouse-eye-line"></div>
+        <span class="warehouse-eye-text">Our Facilities</span>
+      </div>
+      <h2 class="warehouse-title">Real Infrastructure.<br>Built for <em>Real Operations.</em></h2>
+      <p class="warehouse-sub">Most agents stop at introductions and emails. We deliver something different — owned, secured, and fully operational warehousing and logistics infrastructure across Libya, with our flagship facility minutes from Benghazi port.</p>
+      <span class="warehouse-loc-tag">📍 Benghazi · Libya · Multi-Location Network</span>
+    </div>
+  </div>
+  <div class="warehouse-features">
+    <div class="wf-head">
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Inside Our Operation</span></div>
+      <h3>What's Behind <em>Every Engagement.</em></h3>
+    </div>
+    <div class="wf-grid">
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l9 4v6c0 5-3.5 9.5-9 10-5.5-.5-9-5-9-10V6l9-4z"/></svg></div>
+        <div class="wf-title">Full Coverage Insurance</div>
+        <div class="wf-text">Every shipment, every storage period, every operation fully insured against loss, damage, and liability — no gaps, no exposure for our clients.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="wf-title">24/7 On-Site Security</div>
+        <div class="wf-text">Continuous round-the-clock security presence and monitoring across all facilities. Your equipment and inventory protected at every hour.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
+        <div class="wf-title">Industrial Racking Systems</div>
+        <div class="wf-text">Heavy-duty industrial racking systems designed for oil and gas equipment, parts, and consumables — organised, accessible, and built to scale.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg></div>
+        <div class="wf-title">Climate Control</div>
+        <div class="wf-text">Temperature and humidity controlled storage areas for sensitive equipment, chemicals, and electronics — Libya's climate handled, your inventory preserved.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 11H5a2 2 0 0 0-2 2v7h18v-7a2 2 0 0 0-2-2h-4M9 11V7a3 3 0 0 1 6 0v4M9 11h6"/></svg></div>
+        <div class="wf-title">Full Logging System</div>
+        <div class="wf-text">Digital inventory tracking and chain-of-custody logging on every item — full transparency on what's stored, where it is, and who handled it.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="wf-title">On-Site Operations Team</div>
+        <div class="wf-text">Trusted in-country team managing day-to-day warehouse and logistics operations — your eyes, hands, and decision-makers on the ground.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div class="wf-title">Full Logistics & Transport</div>
+        <div class="wf-text">Complete in-country logistics operation — heavy equipment handling, transport, and last-mile delivery managed by our own team and fleet.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="wf-title">Strategic Port Proximity</div>
+        <div class="wf-text">Flagship warehouse located minutes from Benghazi port — drastically faster customs clearance and inland transit than competitors.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="wf-title">Customs Connections</div>
+        <div class="wf-text">Direct working relationships with customs officials at every major Libyan port — clearance handled efficiently, every time.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 12h.01M9 15h.01M9 18h.01M14 9h.01M14 12h.01M14 15h.01M14 18h.01"/></svg></div>
+        <div class="wf-title">Multi-Location Network</div>
+        <div class="wf-text">Multiple warehouse sites across Libya with the flagship in Benghazi — capacity to scale with you and reach where you need to go.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="wf-title">Government Backed</div>
+        <div class="wf-text">Direct relationships with government and NOC officials — meaning when issues arise on the ground, we have the right people on speed dial.</div>
+      </div>
+      <div class="wf-item">
+        <div class="wf-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="wf-title">Ready for Your Operation</div>
+        <div class="wf-text">Every facility, system, and team is in place and operational. You don't have to build infrastructure — we already have it. Just bring your business.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARKETS -->
+<div id="markets" class="section section-dark" style="max-width:none; padding: 0;">
+  <div class="section-inner">
+    <div class="markets-grid">
+      <div class="markets-text">
+        <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Where We Operate</span></div>
+        <h2 class="s-title">Active Across<br>the <em>GCC & MENA</em><br>Region.</h2>
+        <div class="gold-line"></div>
+        <p class="s-body">Six active markets, one agent. Rather than piecing together separate representation in every country, work with the team that already covers the region — with infrastructure, government access, and operational presence in every market we serve.</p>
+        <div style="display: flex; gap: 12px; margin-top: 32px; align-items: center; flex-wrap: wrap;">
+          <span class="warehouse-loc-tag" style="background: var(--gold-bg); border-color: var(--gold3);">● Active Operations</span>
+          <span class="warehouse-loc-tag" style="background: rgba(200,163,85,0.15); border-color: var(--gold);">★ Headquartered</span>
+        </div>
+      </div>
+      <div class="markets-cards">
+        <div class="mc featured">
+          <span class="mc-flag">🇱🇾</span>
+          <div class="mc-country">Libya</div>
+          <div class="mc-status">Primary Market</div>
+          <div class="mc-desc">Africa's largest proven oil reserves. Full operational presence with owned warehouses, logistics team, and direct NOC access.</div>
+        </div>
+        <div class="mc">
+          <span class="mc-flag">🇦🇪</span>
+          <div class="mc-country">UAE</div>
+          <div class="mc-status">Headquarters</div>
+          <div class="mc-desc">Our Dubai HQ — the GCC's most connected commercial hub and gateway to the entire region's energy sector.</div>
+        </div>
+        <div class="mc">
+          <span class="mc-flag">🇸🇦</span>
+          <div class="mc-country">Saudi Arabia</div>
+          <div class="mc-status">Active Operations</div>
+          <div class="mc-desc">World's largest oil exporter. Active operations with strong Aramco-linked operator and supplier relationships.</div>
+        </div>
+        <div class="mc">
+          <span class="mc-flag">🇶🇦</span>
+          <div class="mc-country">Qatar</div>
+          <div class="mc-status">Active Operations</div>
+          <div class="mc-desc">World leader in LNG. QatarEnergy relationships in place across the upstream and LNG value chain.</div>
+        </div>
+        <div class="mc">
+          <span class="mc-flag">🇴🇲</span>
+          <div class="mc-country">Oman</div>
+          <div class="mc-status">Active Operations</div>
+          <div class="mc-desc">Active upstream presence with operator relationships and established logistics capability throughout the Sultanate.</div>
+        </div>
+        <div class="mc">
+          <span class="mc-flag">🇰🇼</span>
+          <div class="mc-country">Kuwait</div>
+          <div class="mc-status">Active Operations</div>
+          <div class="mc-desc">Active operations supporting KPC's production targets and infrastructure programmes across the country.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="services" class="section">
+  <div style="max-width: 700px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">What We Do</span></div>
+    <h2 class="s-title">Four Services.<br>One <em>Single Agent.</em></h2>
+    <p class="s-body">A real agent does more than introduce you. We represent you, store your goods, move them where they need to go, and handle the government side every step of the way.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc-feature">
+      <div class="svc-feature-bar"></div>
+      <div class="svc-num-big">01</div>
+      <div class="svc-feature-title">In-Country Agency & Representation</div>
+      <p class="svc-feature-text">We are your exclusive in-country agent — representing your company directly with the NOC, government ministries, and local operators. We attend meetings on your behalf, handle pre-qualification and tenders, manage contract negotiations, and maintain the relationships that keep your business moving.</p>
+      <div class="svc-feature-list">
+        <div class="svc-feature-item">Direct NOC and government engagement</div>
+        <div class="svc-feature-item">Pre-qualification and tender submissions</div>
+        <div class="svc-feature-item">Contract negotiation support</div>
+        <div class="svc-feature-item">Ongoing relationship management</div>
+      </div>
+    </div>
+    <div class="svc-feature">
+      <div class="svc-feature-bar"></div>
+      <div class="svc-num-big">02</div>
+      <div class="svc-feature-title">Manufacturer & Supplier Representation</div>
+      <p class="svc-feature-text">If you manufacture or supply equipment, chemicals, or services to the oil and gas sector, we are your agent in the GCC. We represent you exclusively in-country, introduce you to the right buyers, and facilitate deals on your behalf — earning commission from both sides of every transaction.</p>
+      <div class="svc-feature-list">
+        <div class="svc-feature-item">Exclusive regional representation</div>
+        <div class="svc-feature-item">Direct buyer introductions</div>
+        <div class="svc-feature-item">Deal facilitation and negotiation</div>
+        <div class="svc-feature-item">Dual-sided commission structure</div>
+      </div>
+    </div>
+    <div class="svc-feature">
+      <div class="svc-feature-bar"></div>
+      <div class="svc-num-big">03</div>
+      <div class="svc-feature-title">Warehousing & Full Logistics</div>
+      <p class="svc-feature-text">Owned warehouses across Libya with industrial racking, climate control, full logging systems, and 24/7 security — paired with our complete in-country logistics team. Your goods move from arrival at port to final field destination, all handled by us.</p>
+      <div class="svc-feature-list">
+        <div class="svc-feature-item">Multi-location owned warehouses</div>
+        <div class="svc-feature-item">Climate-controlled, racked, and insured</div>
+        <div class="svc-feature-item">Full transport and handling team</div>
+        <div class="svc-feature-item">Port-side flagship in Benghazi</div>
+      </div>
+    </div>
+    <div class="svc-feature">
+      <div class="svc-feature-bar"></div>
+      <div class="svc-num-big">04</div>
+      <div class="svc-feature-title">Customs & Government Liaison</div>
+      <p class="svc-feature-text">Getting things approved, licensed, and cleared in GCC markets requires the right relationships — not just paperwork. As your agent, we leverage direct customs and government connections at every major Libyan port to navigate permits, licensing, and clearance on your behalf.</p>
+      <div class="svc-feature-list">
+        <div class="svc-feature-item">Direct customs relationships at all ports</div>
+        <div class="svc-feature-item">Licensing and permit management</div>
+        <div class="svc-feature-item">Government issue resolution</div>
+        <div class="svc-feature-item">Full regulatory compliance support</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY ATLAS -->
+<div class="section section-dark" style="max-width:none; padding: 0;">
+  <div class="section-inner">
+    <div style="max-width: 600px;">
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">The Atlas Difference</span></div>
+      <h2 class="s-title">Why Companies<br>Choose <em>Atlas Energy Bridge.</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why">
+        <div class="why-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="why-title">Government Connections That Work</div>
+        <p class="why-text">Direct relationships with the NOC, customs officials at every Libyan port, and key government figures across the region — not promises, real access.</p>
+      </div>
+      <div class="why">
+        <div class="why-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg></div>
+        <div class="why-title">Owned Operational Infrastructure</div>
+        <p class="why-text">Multi-location warehouses, racking systems, climate control, full logistics team, and 24/7 security — all owned, all operational, all ready.</p>
+      </div>
+      <div class="why">
+        <div class="why-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="why-title">Six Markets, One Agreement</div>
+        <p class="why-text">Instead of finding and managing separate agents in every GCC country, work with one team across Libya, UAE, Saudi Arabia, Qatar, Oman, and Kuwait.</p>
+      </div>
+      <div class="why">
+        <div class="why-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="why-title">Aligned Commercial Model</div>
+        <p class="why-text">We earn commission from both the operator side and the manufacturer side of every deal — meaning our incentive is always to close, and to keep both parties returning.</p>
+      </div>
+      <div class="why">
+        <div class="why-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="why-title">Fast, Insured, Compliant</div>
+        <p class="why-text">Full coverage insurance, direct customs relationships, and proximity to Benghazi port mean clearance and operations move faster than the competition.</p>
+      </div>
+      <div class="why">
+        <div class="why-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <div class="why-title">Dubai Registered, Globally Trusted</div>
+        <p class="why-text">All contracts and commissions flow through our UAE-registered company in Dubai — giving international clients the financial stability and clarity they expect.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="section">
+  <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+    <div class="s-eye" style="justify-content: center;"><div class="s-eye-line"></div><span class="s-eye-text">How We Work</span></div>
+    <h2 class="s-title">From Conversation<br>to <em>Active Operation.</em></h2>
+  </div>
+  <div class="process-grid">
+    <div class="proc">
+      <div class="proc-c"><span class="proc-r">I</span></div>
+      <div class="proc-t">Initial Conversation</div>
+      <p class="proc-x">We understand your business, target markets, and exactly what you need from your agent on the ground.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-c"><span class="proc-r">II</span></div>
+      <div class="proc-t">Agency Agreement</div>
+      <p class="proc-x">We formalise the relationship — defining scope, commission structure, exclusivity, and territory across your target markets.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-c"><span class="proc-r">III</span></div>
+      <div class="proc-t">We Activate</div>
+      <p class="proc-x">Our in-country team activates immediately — engaging governments, operators, and buyers on your behalf from day one.</p>
+    </div>
+    <div class="proc">
+      <div class="proc-c"><span class="proc-r">IV</span></div>
+      <div class="proc-t">Deliver & Grow</div>
+      <p class="proc-x">We secure contracts, manage logistics, and continuously expand your footprint — earning our commission when deals close.</p>
+    </div>
+  </div>
+  <div class="cta-final">
+    <div class="cta-final-eye">
+      <div class="s-eye-line"></div>
+      <span class="s-eye-text">Ready to Start</span>
+      <div class="s-eye-line"></div>
+    </div>
+    <h2 class="cta-final-title">You Bring the Business.<br><em>We Get It Done.</em></h2>
+    <p class="cta-final-text">Whether you are an oil and gas operator, a service company, or a manufacturer — if you need an agent who actually delivers in the GCC and MENA, let's talk.</p>
+    <div class="cta-final-actions">
+      <a href="#contact" class="btn-gold">Partner With Us</a>
+      <a href="digital-commerce.html" class="btn-outline">See Our Digital Commerce</a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="section section-dark" style="max-width:none; padding: 0;">
+  <div class="section-inner">
+    <div style="margin-bottom: 60px;">
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Get In Touch</span></div>
+      <h2 class="s-title">Need an Agent<br>in <em>GCC & MENA?</em><br>Let's Talk.</h2>
+    </div>
+    <div class="contact-grid">
+      <form class="form" id="contact-form" action="https://formspree.io/f/xojylwpq" method="POST">
+        <div class="form-row">
+          <div class="field"><label>First Name</label><input type="text" name="first_name" placeholder="John" required></div>
+          <div class="field"><label>Last Name</label><input type="text" name="last_name" placeholder="Smith" required></div>
+        </div>
+        <div class="field"><label>Company</label><input type="text" name="company" placeholder="Your Company Name" required></div>
+        <div class="field"><label>Email Address</label><input type="email" name="email" placeholder="john@company.com" required></div>
+        <div class="field"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+971 xx xxx xxxx"></div>
+        <div class="field">
+          <label>Target Market</label>
+          <select name="target_market">
+            <option value="">Select primary market...</option>
+            <option>Libya</option>
+            <option>United Arab Emirates</option>
+            <option>Saudi Arabia</option>
+            <option>Qatar</option>
+            <option>Oman</option>
+            <option>Kuwait</option>
+            <option>Multiple GCC Markets</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Service Interest</label>
+          <select name="service">
+            <option value="">Select a service...</option>
+            <option>Agency & Commercial Representation</option>
+            <option>Supplier & Manufacturer Representation</option>
+            <option>Warehousing & Logistics</option>
+            <option>Government Liaison & Compliance</option>
+            <option>B2B Digital Commerce Platform</option>
+            <option>Full Regional Partnership</option>
+          </select>
+        </div>
+        <div class="field"><label>Tell us about your objectives</label><textarea name="message" placeholder="Describe your GCC/MENA goals and how we can help..."></textarea></div>
+        <button type="submit" id="submit-btn" class="btn-gold" style="align-self: flex-start; margin-top: 4px; border: none;">Send Enquiry</button>
+        <div id="form-success" style="display: none; margin-top: 24px; padding: 24px 28px; border: 1px solid var(--gold3); background: var(--gold-bg);">
+          <div style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); margin-bottom: 8px;">Request Sent</div>
+          <div style="font-size: 14px; color: var(--light); line-height: 1.7;">Thank you for reaching out. A member of the Atlas Energy Bridge team will be in touch with you shortly.</div>
+        </div>
+      </form>
+      <div>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; line-height: 1.15; margin-bottom: 16px;">Positioned Across<br><em style="color: var(--gold); font-style: italic;">the Region.</em></h3>
+        <p style="font-size: 14px; line-height: 1.85; color: var(--muted); margin-bottom: 32px;">Whether you are an oil and gas operator, a service company, or a manufacturer looking for an agent who actually gets things done on the ground — reach out and let's discuss how we represent you.</p>
+        <div class="ci">
+          <div class="ci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div><div class="ci-label">Headquarters</div><div class="ci-val">Dubai, United Arab Emirates</div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div><div class="ci-label">Primary Operations</div><div class="ci-val">Benghazi, Libya</div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div><div class="ci-label">Also Active In</div><div class="ci-val">Saudi Arabia · Qatar · Oman · Kuwait</div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><div class="ci-label">Email</div><div class="ci-val">info@atlasenergybridge.com</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+    <img src="atlas-logo.png" alt="Atlas Energy Bridge" style="width: 32px; height: 32px; object-fit: contain;">
+    <span class="f-logo">Atlas Energy Bridge</span>
+  </a>
+  <span class="f-copy">© 2025 Atlas Energy Bridge. Established 2022.</span>
+  <ul class="f-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#facilities">Facilities</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="digital-commerce.html">Digital Commerce</a></li>
+    <li><a href="freezone-warehousing.html">Freezone Warehousing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = (mx - 4) + 'px';
+  cur.style.top = (my - 4) + 'px';
+});
+
+(function loop() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = (rx - 18) + 'px'; ring.style.top = (ry - 18) + 'px';
+  requestAnimationFrame(loop);
+})();
+
+document.querySelectorAll('a, button, .svc-feature, .why, .pillar-modern, .trust, .mc, .wf-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cur.style.width = '14px'; cur.style.height = '14px';
+    ring.style.width = '50px'; ring.style.height = '50px';
+    ring.style.borderColor = 'rgba(200,163,85,0.7)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cur.style.width = '8px'; cur.style.height = '8px';
+    ring.style.width = '36px'; ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(200,163,85,0.4)';
+  });
+});
+
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+const form = document.getElementById('contact-form');
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.querySelectorAll('.field, .form-row, #submit-btn').forEach(el => el.style.display = 'none');
+      document.getElementById('form-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Send Enquiry';
+      btn.style.opacity = '1';
+      alert('Something went wrong. Please try again.');
+    }
+  } catch {
+    btn.textContent = 'Send Enquiry';
+    btn.style.opacity = '1';
+    alert('Something went wrong. Please try again.');
+  }
+});
+</script>
+</body>
+</html>

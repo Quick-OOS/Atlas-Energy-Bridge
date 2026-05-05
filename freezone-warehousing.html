@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freezone Warehousing & Re-Export Solutions — Atlas Energy Bridge</title>
+<meta name="google-site-verification" content="r6o8ryswgmeGEUSx_Zb7DVx0AJ_og1nyOSFNL07Bw7I" />
+<link rel="icon" type="image/png" href="atlas-logo.png">
+<link rel="apple-touch-icon" href="atlas-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080807;
+  --deep: #0f0f0d;
+  --surface: #141412;
+  --card: #1a1a17;
+  --card2: #1f1f1c;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --gold: #c8a355;
+  --gold2: #e2c07a;
+  --gold3: #9a7535;
+  --gold-bg: rgba(200,163,85,0.08);
+  --white: #f2ede4;
+  --muted: #7a7870;
+  --light: #b8b3a8;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; line-height: 1.6; }
+*, *::before, *::after { cursor: none !important; }
+
+#cur { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; top: 0; left: 0; transition: width .15s, height .15s; }
+#cur-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(200,163,85,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; top: 0; left: 0; transition: width .2s, height .2s, border-color .2s; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 20px 64px; display: flex; align-items: center; justify-content: space-between; transition: background .4s; }
+nav.scrolled { background: rgba(8,8,7,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+.logo { text-decoration: none; display: flex; align-items: center; gap: 14px; }
+.logo-img { width: 40px; height: 40px; object-fit: contain; }
+.logo-text { display: flex; flex-direction: column; gap: 3px; }
+.logo-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--gold); letter-spacing: .06em; line-height: 1; }
+.logo-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.nav-links { display: flex; gap: 34px; list-style: none; }
+.nav-links a { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--gold2); }
+.nav-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); background: transparent; border: 1px solid var(--gold3); padding: 10px 22px; text-decoration: none; transition: all .3s; }
+.nav-btn:hover { background: var(--gold-bg); border-color: var(--gold); }
+
+/* HERO */
+.hero { min-height: 100vh; padding: 160px 64px 100px; position: relative; overflow: hidden; display: flex; align-items: center; }
+.hero-grain { position: absolute; inset: 0; background-image: radial-gradient(rgba(200,163,85,0.04) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none; }
+.hero-glow { position: absolute; top: 25%; right: -15%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(200,163,85,0.12), transparent 70%); pointer-events: none; }
+.hero-grid { position: relative; z-index: 5; max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; width: 100%; }
+.hero-back { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); text-decoration: none; margin-bottom: 24px; display: inline-block; }
+.hero-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.hero-eyebrow-line { width: 50px; height: 1px; background: var(--gold3); }
+.hero-eyebrow-text { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px, 5.5vw, 78px); font-weight: 400; line-height: 1.04; letter-spacing: -.02em; margin-bottom: 32px; color: var(--white); }
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero-p { font-size: 17px; line-height: 1.65; color: var(--light); max-width: 540px; margin-bottom: 40px; font-weight: 300; }
+.hero-actions { display: flex; gap: 18px; flex-wrap: wrap; }
+.btn-gold { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--black); background: linear-gradient(135deg, var(--gold2), var(--gold)); border: none; padding: 16px 30px; text-decoration: none; transition: transform .25s; cursor: none; }
+.btn-gold:hover { transform: translateY(-2px); }
+.btn-outline { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); background: transparent; border: 1px solid var(--gold3); padding: 16px 30px; text-decoration: none; transition: all .3s; }
+.btn-outline:hover { background: var(--gold-bg); border-color: var(--gold); }
+
+/* MAP VISUAL */
+.hero-visual { position: relative; }
+.map-card { background: linear-gradient(180deg, var(--card2), var(--card)); border: 1px solid var(--border2); padding: 38px; position: relative; overflow: hidden; }
+.map-card::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.map-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
+.map-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--white); margin-bottom: 28px; letter-spacing: -.01em; }
+.map-routes { display: flex; flex-direction: column; gap: 20px; }
+.map-route { display: flex; align-items: center; gap: 16px; padding: 18px; background: var(--card); border: 1px solid var(--border); position: relative; }
+.map-route-from, .map-route-to { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.map-route-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.map-route-name { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--gold); font-weight: 500; }
+.map-route-detail { font-size: 11px; color: var(--light); }
+.map-arrow { color: var(--gold); font-size: 18px; }
+.map-stats { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.map-stat { text-align: center; }
+.map-stat-num { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--gold); font-weight: 500; }
+.map-stat-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+/* SECTIONS */
+.section { padding: 120px 64px; max-width: 1280px; margin: 0 auto; position: relative; }
+.s-eye { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.s-eye-line { width: 50px; height: 1px; background: var(--gold3); }
+.s-eye-text { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); }
+.s-title { font-family: 'Playfair Display', serif; font-size: clamp(38px, 4vw, 56px); font-weight: 400; line-height: 1.05; letter-spacing: -.015em; margin-bottom: 32px; }
+.s-title em { font-style: italic; color: var(--gold); }
+.s-body { font-size: 16px; line-height: 1.8; color: var(--light); max-width: 760px; margin-bottom: 60px; }
+
+/* WHY GRID */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.why-card { background: var(--card); border: 1px solid var(--border); padding: 36px 30px; position: relative; transition: border-color .3s, transform .3s; }
+.why-card:hover { border-color: var(--gold3); transform: translateY(-4px); }
+.why-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .3em; color: var(--muted); margin-bottom: 24px; }
+.why-icon { width: 56px; height: 56px; background: var(--gold-bg); border: 1px solid var(--gold3); display: flex; align-items: center; justify-content: center; color: var(--gold); margin-bottom: 24px; }
+.why-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--white); margin-bottom: 14px; line-height: 1.2; }
+.why-text { font-size: 14px; color: var(--light); line-height: 1.7; }
+
+/* LOCATIONS */
+.locations { background: var(--surface); padding: 120px 64px; }
+.locations-inner { max-width: 1280px; margin: 0 auto; }
+.loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 50px; }
+.loc-card { background: linear-gradient(180deg, var(--card2), var(--card)); border: 1px solid var(--border2); padding: 44px; position: relative; overflow: hidden; }
+.loc-card::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.loc-flag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.loc-name { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--gold); margin-bottom: 18px; letter-spacing: -.01em; }
+.loc-desc { font-size: 14px; color: var(--light); line-height: 1.7; margin-bottom: 28px; }
+.loc-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.loc-features li { display: flex; gap: 12px; font-size: 13px; color: var(--white); align-items: flex-start; line-height: 1.6; }
+.loc-features li::before { content:'→'; color: var(--gold); flex-shrink: 0; }
+
+/* PROCESS */
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 50px; }
+.proc-step { background: var(--card); border: 1px solid var(--border); padding: 32px 24px; position: relative; }
+.proc-num { font-family: 'Playfair Display', serif; font-size: 56px; color: var(--gold); font-style: italic; line-height: 1; margin-bottom: 18px; opacity: .9; }
+.proc-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--white); margin-bottom: 10px; }
+.proc-text { font-size: 13px; color: var(--light); line-height: 1.65; }
+
+/* IDEAL FOR */
+.ideal { background: var(--surface); padding: 120px 64px; }
+.ideal-inner { max-width: 1280px; margin: 0 auto; }
+.ideal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 50px; }
+.ideal-card { background: var(--card); border: 1px solid var(--border); padding: 28px 24px; transition: border-color .3s; }
+.ideal-card:hover { border-color: var(--gold3); }
+.ideal-icon { color: var(--gold); margin-bottom: 16px; }
+.ideal-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--white); margin-bottom: 8px; }
+.ideal-text { font-size: 12px; color: var(--light); line-height: 1.6; }
+
+/* ENQUIRE */
+.dc-enquire { padding: 120px 64px; max-width: 1100px; margin: 0 auto; }
+.enquire-card { background: linear-gradient(180deg, var(--card2), var(--card)); border: 1px solid var(--border2); padding: 60px; position: relative; overflow: hidden; }
+.enquire-card::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.enquire-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.enquire-grid .full { grid-column: 1 / -1; }
+.dc-field { display: flex; flex-direction: column; gap: 6px; }
+.dc-field label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+.dc-field input, .dc-field select, .dc-field textarea { background: var(--card); border: 1px solid var(--border); color: var(--white); padding: 12px 15px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; outline: none; transition: border-color .25s; width: 100%; }
+.dc-field input::placeholder, .dc-field textarea::placeholder { color: var(--muted); }
+.dc-field input:focus, .dc-field select:focus, .dc-field textarea:focus { border-color: var(--gold3); }
+.dc-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7870' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; }
+option { background: var(--card); }
+.dc-success { display: none; text-align: center; padding: 60px 30px; }
+.dc-success-tick { width: 64px; height: 64px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: var(--gold); }
+.dc-success h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--gold); margin-bottom: 14px; }
+.dc-success p { font-size: 15px; color: var(--light); }
+
+/* FOOTER */
+footer { background: var(--deep); padding: 50px 64px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.f-logo { display: flex; align-items: center; gap: 12px; }
+.f-logo img { width: 32px; height: 32px; }
+.f-logo-text { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold); letter-spacing: .05em; }
+.f-text { font-size: 11px; color: var(--muted); }
+.f-links { display: flex; gap: 24px; }
+.f-links a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+.f-links a:hover { color: var(--gold); }
+
+/* RESPONSIVE */
+@media (max-width: 980px) {
+  *, *::before, *::after { cursor: auto !important; }
+  #cur, #cur-ring { display: none; }
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 130px 24px 70px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 40px; }
+  .map-card { padding: 26px; }
+  .map-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .map-stat-num { font-size: 24px; }
+  .section, .ideal, .locations, .dc-enquire { padding: 70px 24px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .loc-grid { grid-template-columns: 1fr; }
+  .loc-card { padding: 32px 26px; }
+  .loc-name { font-size: 28px; }
+  .process-steps { grid-template-columns: repeat(2, 1fr); }
+  .ideal-grid { grid-template-columns: 1fr 1fr; }
+  .enquire-card { padding: 36px 24px; }
+  .enquire-grid { grid-template-columns: 1fr; }
+  .dc-field input, .dc-field select, .dc-field textarea { font-size: 16px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+  .f-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .hero-back { font-size: 9px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <img src="atlas-logo.png" alt="Atlas Energy Bridge" class="logo-img">
+    <div class="logo-text">
+      <span class="logo-name">Atlas Energy Bridge</span>
+      <span class="logo-tag">Freezone Warehousing</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#why">Why Freezone</a></li>
+    <li><a href="#locations">Locations</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#ideal">Ideal For</a></li>
+    <li><a href="#enquire">Enquire</a></li>
+  </ul>
+  <a href="index.html" class="nav-btn">← Back to Main Site</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-grid">
+    <div>
+      <a href="index.html" class="hero-back">Back to Atlas Energy Bridge</a>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Freezone Warehousing & Re-Export</span>
+      </div>
+      <h1>Your Strategic<br>Foothold Between<br><em>China and Europe.</em></h1>
+      <p class="hero-p">Owned bonded warehouse facilities in the Libya and Tunisia freezones. International manufacturers store goods closer to their final markets, cut shipping times to Europe, reduce costs, and re-export with full bonded customs status. We handle storage, logistics, and customs end to end.</p>
+      <div class="hero-actions">
+        <a href="#enquire" class="btn-gold">Request Pricing</a>
+        <a href="#locations" class="btn-outline">View Locations</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="map-card">
+        <div class="map-eyebrow">Trade Route</div>
+        <div class="map-title">China to Europe via North Africa</div>
+        <div class="map-routes">
+          <div class="map-route">
+            <div class="map-route-from">
+              <span class="map-route-label">Origin</span>
+              <span class="map-route-name">China</span>
+              <span class="map-route-detail">Manufacturing hubs</span>
+            </div>
+            <span class="map-arrow">→</span>
+            <div class="map-route-to">
+              <span class="map-route-label">Storage</span>
+              <span class="map-route-name">Libya / Tunisia</span>
+              <span class="map-route-detail">Bonded freezone</span>
+            </div>
+          </div>
+          <div class="map-route">
+            <div class="map-route-from">
+              <span class="map-route-label">Storage</span>
+              <span class="map-route-name">Libya / Tunisia</span>
+              <span class="map-route-detail">Bonded freezone</span>
+            </div>
+            <span class="map-arrow">→</span>
+            <div class="map-route-to">
+              <span class="map-route-label">Destination</span>
+              <span class="map-route-name">Europe</span>
+              <span class="map-route-detail">Final markets</span>
+            </div>
+          </div>
+        </div>
+        <div class="map-stats">
+          <div class="map-stat">
+            <div class="map-stat-num">2</div>
+            <div class="map-stat-label">Countries</div>
+          </div>
+          <div class="map-stat">
+            <div class="map-stat-num">24/7</div>
+            <div class="map-stat-label">Security</div>
+          </div>
+          <div class="map-stat">
+            <div class="map-stat-num">100%</div>
+            <div class="map-stat-label">Insured</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<div id="why" class="section">
+  <div style="max-width:680px; margin-bottom:60px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Why Freezone Warehousing</span></div>
+    <h2 class="s-title">Closer to Europe.<br><em>Cheaper Than</em><br>Direct Shipping.</h2>
+    <p class="s-body">Manufacturers exporting to Europe face two constant problems. Long lead times and high warehousing costs at destination. Storing inventory in our bonded freezone facilities solves both. Goods sit ready for rapid dispatch to European customers without the cost of EU storage and without paying import duties on stock that hasn't sold yet.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <div class="why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
+      </div>
+      <div class="why-title">Bonded Re-Export Status</div>
+      <p class="why-text">Goods stored in our facilities are held under official freezone bonded status. No Libyan or Tunisian import duties apply. Inventory enters and exits in transit, only triggering customs at the final destination. Fully compliant, fully transparent.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <div class="why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 8l9-5 9 5M3 8v8l9 5 9-5V8M3 8l9 5 9-5"/></svg>
+      </div>
+      <div class="why-title">Strategic Geographic Position</div>
+      <p class="why-text">North Africa sits at the crossroads between manufacturing hubs in Asia and consumption markets in Europe. Shipping from our facilities to Mediterranean ports takes days, not weeks. You hold stock close to customers without the cost of European warehousing.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <div class="why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L4 7v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V7l-8-5z"/></svg>
+      </div>
+      <div class="why-title">24/7 Security & Full Insurance</div>
+      <p class="why-text">Every facility is protected by round the clock security, climate control, and modern racking systems. All stored goods are fully insured and tracked through our digital logging system. You know exactly what's stored, where, and when it moves.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <div class="why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 6h18l-2 13H5L3 6zM8 10v6M12 10v6M16 10v6"/></svg>
+      </div>
+      <div class="why-title">Lower Operating Costs</div>
+      <p class="why-text">Storage rates in our facilities run substantially lower than equivalent European warehousing. For high volume manufacturers, the savings on a single year of inventory holding can offset the entire cost of building a regional logistics presence.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">05</div>
+      <div class="why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 12l2 2 4-4M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9c2.5 0 5 1 7 2.5"/></svg>
+      </div>
+      <div class="why-title">Government & Customs Connections</div>
+      <p class="why-text">Our team holds direct relationships with customs authorities and freezone administrations across Libya and Tunisia. Inbound and outbound shipments clear faster, paperwork moves smoothly, and bottlenecks are resolved through real human contact rather than email queues.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">06</div>
+      <div class="why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div class="why-title">End to End Logistics</div>
+      <p class="why-text">Beyond storage we handle inbound port clearance, transfer to facility, racking, picking, dispatch coordination, and outbound shipping arrangements. One team. One point of contact. Zero coordination overhead on your side.</p>
+    </div>
+  </div>
+</div>
+
+<!-- LOCATIONS -->
+<section id="locations" class="locations">
+  <div class="locations-inner">
+    <div style="max-width:680px;">
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Our Locations</span></div>
+      <h2 class="s-title">Two Countries.<br><em>Multiple</em> Facilities.</h2>
+      <p class="s-body">Owned bonded warehouse infrastructure across the Libyan and Tunisian freezones. Multiple facilities, all secured, climate controlled, and operationally active.</p>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-card">
+        <div class="loc-flag">North Africa · Libya</div>
+        <div class="loc-name">Libya Freezones</div>
+        <p class="loc-desc">Multiple owned warehouse facilities across the Libyan freezone network. Strategic positioning close to Mediterranean ports, with direct customs connections at every active port. Primary hub in Benghazi.</p>
+        <ul class="loc-features">
+          <li>Multi-location coverage across Libyan freezones</li>
+          <li>Primary hub close to Benghazi port</li>
+          <li>Climate controlled, full racking systems</li>
+          <li>Direct NOC and customs relationships</li>
+          <li>24/7 manned security</li>
+          <li>Full digital inventory logging</li>
+        </ul>
+      </div>
+      <div class="loc-card">
+        <div class="loc-flag">North Africa · Tunisia</div>
+        <div class="loc-name">Tunisia Freezones</div>
+        <p class="loc-desc">Bonded warehouse facilities in the Tunisian freezone, with access to Tunisian ports for direct shipping to European markets. Ideal for manufacturers prioritising the shortest possible Mediterranean crossing.</p>
+        <ul class="loc-features">
+          <li>Bonded freezone facilities</li>
+          <li>Direct port access for European routes</li>
+          <li>Climate controlled storage</li>
+          <li>Customs handling and documentation</li>
+          <li>24/7 security infrastructure</li>
+          <li>Integrated logistics coordination</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<div id="process" class="section">
+  <div style="max-width:680px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">How It Works</span></div>
+    <h2 class="s-title">From Factory<br>to Final <em>Market.</em></h2>
+    <p class="s-body">Once you sign with Atlas Energy Bridge, the whole flow runs through one team. You ship from China. We handle everything else until your goods reach your customer in Europe.</p>
+  </div>
+  <div class="process-steps">
+    <div class="proc-step">
+      <div class="proc-num">i</div>
+      <div class="proc-title">Inbound</div>
+      <p class="proc-text">Goods ship from your factory directly to our nominated freezone port. We handle inbound customs clearance under bonded re-export status, no import duties.</p>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">ii</div>
+      <div class="proc-title">Storage</div>
+      <p class="proc-text">Stock is transferred to our facility, racked, logged digitally, insured, and held under climate-controlled conditions until you're ready to dispatch.</p>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">iii</div>
+      <div class="proc-title">Dispatch</div>
+      <p class="proc-text">When you have a buyer or distributor in Europe, we arrange picking, packing, customs documentation, and outbound shipping coordination with your chosen carrier.</p>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">iv</div>
+      <div class="proc-title">Delivery</div>
+      <p class="proc-text">Goods clear customs at the destination port and reach your customer days after dispatch, rather than weeks if shipped direct from origin. Faster delivery, happier customers.</p>
+    </div>
+  </div>
+</div>
+
+<!-- IDEAL FOR -->
+<section id="ideal" class="ideal">
+  <div class="ideal-inner">
+    <div style="max-width:680px;">
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Who It's For</span></div>
+      <h2 class="s-title">Built for<br>International <em>Manufacturers.</em></h2>
+      <p class="s-body">Our freezone warehousing service is designed for manufacturers and traders who export significant volume to European, North African, or Mediterranean markets. If your products fit any of these categories, the economics typically work in your favour.</p>
+    </div>
+    <div class="ideal-grid">
+      <div class="ideal-card">
+        <div class="ideal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="6" width="20" height="14" rx="1"/><path d="M2 10h20M8 6V4M16 6V4"/></svg>
+        </div>
+        <div class="ideal-name">Industrial Equipment</div>
+        <p class="ideal-text">Pumps, valves, drilling equipment, machinery, oilfield supplies. High value, predictable demand, perfect for inventory holding closer to market.</p>
+      </div>
+      <div class="ideal-card">
+        <div class="ideal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 12l9-9 9 9M5 10v10h14V10M9 20v-6h6v6"/></svg>
+        </div>
+        <div class="ideal-name">Construction Materials</div>
+        <p class="ideal-text">Tiles, fixtures, fittings, structural products. Bulk volume manufacturing benefits significantly from positioning stock closer to European job sites.</p>
+      </div>
+      <div class="ideal-card">
+        <div class="ideal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>
+        </div>
+        <div class="ideal-name">Auto Parts</div>
+        <p class="ideal-text">Components, accessories, replacement parts. European distributors increasingly demand fast turnaround which inventory in-region delivers.</p>
+      </div>
+      <div class="ideal-card">
+        <div class="ideal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+        </div>
+        <div class="ideal-name">Electronics & Components</div>
+        <p class="ideal-text">Smaller items where high SKU count and rapid replenishment cycles benefit from being closer to European customers and distributors.</p>
+      </div>
+      <div class="ideal-card">
+        <div class="ideal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 3l14 7-14 7v-14z"/></svg>
+        </div>
+        <div class="ideal-name">Solar & Renewables</div>
+        <p class="ideal-text">Solar panels, inverters, mounting systems. The European renewables market is moving fast, regional stock holding gives manufacturers a competitive edge.</p>
+      </div>
+      <div class="ideal-card">
+        <div class="ideal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 6h18l-2 13H5L3 6zM10 6V4h4v2"/></svg>
+        </div>
+        <div class="ideal-name">Furniture & Home Goods</div>
+        <p class="ideal-text">Bulky volume products where reducing shipping costs to European destinations significantly improves margins. Ideal for high volume operators.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENQUIRE -->
+<section id="enquire" class="dc-enquire">
+  <div class="enquire-card">
+    <div class="dc-form">
+      <div style="max-width:680px; margin-bottom:36px;">
+        <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">Enquire</span></div>
+        <h2 class="s-title" style="font-size:38px;">Request Storage <em>Pricing</em></h2>
+        <p class="s-body" style="font-size:14px;">Tell us about your product, volume, and target markets. We'll respond with indicative pricing and a recommendation for the right facility for your needs.</p>
+      </div>
+      <form id="warehousingForm" action="https://formspree.io/f/xojylwpq" method="POST">
+        <input type="hidden" name="_subject" value="Freezone Warehousing Enquiry">
+        <input type="hidden" name="enquiry_type" value="Freezone Warehousing">
+        <div class="enquire-grid">
+          <div class="dc-field">
+            <label>Full Name</label>
+            <input type="text" name="name" required placeholder="Your name">
+          </div>
+          <div class="dc-field">
+            <label>Company</label>
+            <input type="text" name="company" required placeholder="Company name">
+          </div>
+          <div class="dc-field">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="you@company.com">
+          </div>
+          <div class="dc-field">
+            <label>Country</label>
+            <input type="text" name="country" required placeholder="Your country">
+          </div>
+          <div class="dc-field">
+            <label>Product Category</label>
+            <select name="product_category" required>
+              <option value="">Select a category</option>
+              <option>Industrial Equipment</option>
+              <option>Construction Materials</option>
+              <option>Auto Parts</option>
+              <option>Electronics & Components</option>
+              <option>Solar & Renewables</option>
+              <option>Furniture & Home Goods</option>
+              <option>Steel & Metal Products</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="dc-field">
+            <label>Estimated Monthly Volume</label>
+            <select name="volume" required>
+              <option value="">Select volume</option>
+              <option>Less than 10 containers</option>
+              <option>10-50 containers</option>
+              <option>50-100 containers</option>
+              <option>100+ containers</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="dc-field full">
+            <label>Target Markets</label>
+            <input type="text" name="target_markets" placeholder="e.g. Germany, France, UK, Italy">
+          </div>
+          <div class="dc-field full">
+            <label>Tell us about your needs</label>
+            <textarea name="message" rows="4" placeholder="Product details, current logistics setup, what you're trying to solve..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-gold" style="margin-top:28px;">Submit Enquiry</button>
+      </form>
+      <div class="dc-success" id="dcSuccess">
+        <div class="dc-success-tick">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5 9-9"/></svg>
+        </div>
+        <h3>Enquiry Sent</h3>
+        <p>Thanks for reaching out. We'll review your enquiry and respond within one business day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <img src="atlas-logo.png" alt="Atlas Energy Bridge">
+    <span class="f-logo-text">Atlas Energy Bridge</span>
+  </div>
+  <div class="f-text">© 2025 Atlas Energy Bridge. We Open Doors. You Close Deals.</div>
+  <div class="f-links">
+    <a href="index.html">Main Site</a>
+    <a href="digital-commerce.html">Digital Commerce</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx-4+'px'; cur.style.top=my-4+'px'; });
+function animRing(){ rx+=(mx-rx)*.15; ry+=(my-ry)*.15; ring.style.left=rx-18+'px'; ring.style.top=ry-18+'px'; requestAnimationFrame(animRing); }
+animRing();
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Form
+const form = document.getElementById('warehousingForm');
+const success = document.getElementById('dcSuccess');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+  try {
+    const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+    if (res.ok) { form.style.display = 'none'; success.style.display = 'block'; }
+    else { alert('Submission failed. Please try again or email info@atlasenergybridge.com directly.'); }
+  } catch (err) {
+    alert('Submission failed. Please try again or email info@atlasenergybridge.com directly.');
+  }
+});
+</script>
+
+</body>
+</html>
