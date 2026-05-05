@@ -121,6 +121,38 @@ nav.scrolled { background: rgba(8,8,7,0.95); backdrop-filter: blur(20px); border
 .proc-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--white); margin-bottom: 10px; }
 .proc-text { font-size: 13px; color: var(--light); line-height: 1.65; }
 
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 50px; }
+.service-cat { background: var(--card); border: 1px solid var(--border); padding: 36px 32px; transition: border-color .3s; position: relative; }
+.service-cat:hover { border-color: var(--gold3); }
+.service-cat-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .3em; color: var(--gold); margin-bottom: 18px; }
+.service-cat-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--white); margin-bottom: 22px; letter-spacing: -.01em; }
+.service-cat-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.service-cat-list li { font-size: 13px; color: var(--light); line-height: 1.55; padding-left: 18px; position: relative; }
+.service-cat-list li::before { content:'+'; color: var(--gold); position: absolute; left: 0; top: 0; font-weight: 500; }
+
+/* COMPARISON */
+.comparison { background: var(--surface); padding: 120px 64px; }
+.comparison-inner { max-width: 1280px; margin: 0 auto; }
+.compare-table-wrap { background: var(--card); border: 1px solid var(--border2); margin-top: 50px; overflow: hidden; }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table thead th { background: var(--card2); padding: 22px 24px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); text-align: left; border-bottom: 1px solid var(--border2); }
+.compare-table thead th.gold-col { color: var(--gold); }
+.compare-table thead th.savings-col { color: var(--gold2); text-align: right; }
+.compare-table tbody td { padding: 18px 24px; font-size: 14px; color: var(--white); border-bottom: 1px solid var(--border); }
+.compare-table tbody td.label { font-family: 'Playfair Display', serif; font-size: 15px; }
+.compare-table tbody td.numeric { text-align: right; font-variant-numeric: tabular-nums; color: var(--light); }
+.compare-table tbody td.our-price { color: var(--gold); font-weight: 500; }
+.compare-table tbody tr:last-child td { border-bottom: none; }
+.compare-table tbody tr.total td { background: var(--card2); padding: 22px 24px; font-weight: 500; }
+.compare-table tbody tr.total td.label { color: var(--gold); font-size: 16px; }
+.compare-table tbody tr.total td.savings-col { color: var(--gold); font-size: 16px; }
+.compare-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+.compare-stat { background: var(--card); border: 1px solid var(--border); padding: 28px; text-align: center; }
+.compare-stat-num { font-family: 'Playfair Display', serif; font-size: 38px; color: var(--gold); font-weight: 500; line-height: 1; margin-bottom: 8px; }
+.compare-stat-num em { font-style: italic; }
+.compare-stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
 /* IDEAL FOR */
 .ideal { background: var(--surface); padding: 120px 64px; }
 .ideal-inner { max-width: 1280px; margin: 0 auto; }
@@ -177,6 +209,13 @@ footer { background: var(--deep); padding: 50px 64px; border-top: 1px solid var(
   .loc-card { padding: 32px 26px; }
   .loc-name { font-size: 28px; }
   .process-steps { grid-template-columns: repeat(2, 1fr); }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-cat { padding: 28px 24px; }
+  .comparison { padding: 70px 24px; }
+  .compare-table thead th, .compare-table tbody td { padding: 14px 12px; font-size: 12px; }
+  .compare-table tbody td.label { font-size: 13px; }
+  .compare-summary { grid-template-columns: 1fr; gap: 16px; }
+  .compare-stat-num { font-size: 32px; }
   .ideal-grid { grid-template-columns: 1fr 1fr; }
   .enquire-card { padding: 36px 24px; }
   .enquire-grid { grid-template-columns: 1fr; }
@@ -203,9 +242,9 @@ footer { background: var(--deep); padding: 50px 64px; border-top: 1px solid var(
   </a>
   <ul class="nav-links">
     <li><a href="#why">Why Freezone</a></li>
-    <li><a href="#locations">Locations</a></li>
+    <li><a href="#services">Services</a></li>
     <li><a href="#process">How It Works</a></li>
-    <li><a href="#ideal">Ideal For</a></li>
+    <li><a href="#comparison">vs Europe</a></li>
     <li><a href="#enquire">Enquire</a></li>
   </ul>
   <a href="index.html" class="nav-btn">← Back to Main Site</a>
@@ -378,6 +417,73 @@ footer { background: var(--deep); padding: 50px 64px; border-top: 1px solid var(
   </div>
 </section>
 
+<!-- SERVICES -->
+<div id="services" class="section">
+  <div style="max-width:680px; margin-bottom:30px;">
+    <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">What We Handle</span></div>
+    <h2 class="s-title">A Complete<br><em>Logistics</em> Stack.</h2>
+    <p class="s-body">More than just storage. We provide the full operational infrastructure international manufacturers need to run an efficient European supply chain. Twenty distinct services across five categories, all delivered by one team.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-cat">
+      <div class="service-cat-num">01 / Foundation</div>
+      <div class="service-cat-title">Storage &amp; Handling</div>
+      <ul class="service-cat-list">
+        <li>Bonded freezone storage with tiered volume pricing</li>
+        <li>Inbound container handling and racking</li>
+        <li>Outbound picking, packing, and dispatch</li>
+        <li>Cross-docking for high-velocity goods</li>
+        <li>Climate-controlled facilities and digital inventory tracking</li>
+      </ul>
+    </div>
+    <div class="service-cat">
+      <div class="service-cat-num">02 / Compliance</div>
+      <div class="service-cat-title">Customs &amp; Documentation</div>
+      <ul class="service-cat-list">
+        <li>Inbound customs clearance under bonded status</li>
+        <li>Outbound clearance for European destinations</li>
+        <li>Re-export documentation and certificates of origin</li>
+        <li>Express clearance via direct customs relationships</li>
+        <li>Compliance audits and verification support</li>
+      </ul>
+    </div>
+    <div class="service-cat">
+      <div class="service-cat-num">03 / Movement</div>
+      <div class="service-cat-title">Logistics Coordination</div>
+      <ul class="service-cat-list">
+        <li>Outbound freight coordination to European ports</li>
+        <li>Multi-modal transport (sea, road, air)</li>
+        <li>Direct shipping line and carrier relationships</li>
+        <li>Pooled shipments for cost optimisation</li>
+        <li>End-to-end tracking and visibility</li>
+      </ul>
+    </div>
+    <div class="service-cat">
+      <div class="service-cat-num">04 / Premium</div>
+      <div class="service-cat-title">Value-Added Services</div>
+      <ul class="service-cat-list">
+        <li>Quality control inspections and condition reports</li>
+        <li>Repackaging and European compliance relabelling</li>
+        <li>Light assembly and customer-specific kitting</li>
+        <li>Returns processing for European market</li>
+        <li>Express and priority handling</li>
+      </ul>
+    </div>
+    <div class="service-cat" style="grid-column: 1 / -1;">
+      <div class="service-cat-num">05 / Account</div>
+      <div class="service-cat-title">Management &amp; Reporting</div>
+      <ul class="service-cat-list" style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px 30px;">
+        <li>Monthly inventory reports and turnover analytics</li>
+        <li>Dedicated account managers for premium clients</li>
+        <li>Custom reporting and ERP integration support</li>
+        <li>Reserved warehouse capacity arrangements</li>
+        <li>Annual contract structures with volume discounts</li>
+        <li>24/7 priority support for enterprise clients</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- PROCESS -->
 <div id="process" class="section">
   <div style="max-width:680px;">
@@ -408,6 +514,87 @@ footer { background: var(--deep); padding: 50px 64px; border-top: 1px solid var(
     </div>
   </div>
 </div>
+
+<!-- COMPARISON -->
+<section id="comparison" class="comparison">
+  <div class="comparison-inner">
+    <div style="max-width:680px;">
+      <div class="s-eye"><div class="s-eye-line"></div><span class="s-eye-text">vs European Warehousing</span></div>
+      <h2 class="s-title">Same Reach.<br><em>Half The</em> Cost.</h2>
+      <p class="s-body">Manufacturers currently storing inventory in European warehouses pay premium rates for the privilege. Our facilities offer the same proximity to European customers at a fraction of the operating cost. Here's how the numbers compare.</p>
+    </div>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th class="numeric">European Warehouse</th>
+            <th class="numeric gold-col">Atlas Energy Bridge</th>
+            <th class="numeric savings-col">You Save</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">Storage per pallet, monthly</td>
+            <td class="numeric">$40 to $65</td>
+            <td class="numeric our-price">$20 to $25</td>
+            <td class="numeric">50 to 60%</td>
+          </tr>
+          <tr>
+            <td class="label">Inbound handling per container</td>
+            <td class="numeric">$400 to $700</td>
+            <td class="numeric our-price">$200 to $400</td>
+            <td class="numeric">30 to 45%</td>
+          </tr>
+          <tr>
+            <td class="label">Outbound dispatch per container</td>
+            <td class="numeric">$500 to $800</td>
+            <td class="numeric our-price">$300 to $500</td>
+            <td class="numeric">35 to 40%</td>
+          </tr>
+          <tr>
+            <td class="label">Customs clearance per shipment</td>
+            <td class="numeric">$400 to $700</td>
+            <td class="numeric our-price">$150 to $400</td>
+            <td class="numeric">40 to 50%</td>
+          </tr>
+          <tr>
+            <td class="label">Per-unit quality inspection</td>
+            <td class="numeric">$30 to $50</td>
+            <td class="numeric our-price">$5 to $15</td>
+            <td class="numeric">65 to 75%</td>
+          </tr>
+          <tr>
+            <td class="label">Repackaging per pallet</td>
+            <td class="numeric">$25 to $40</td>
+            <td class="numeric our-price">$5 to $15</td>
+            <td class="numeric">60 to 75%</td>
+          </tr>
+          <tr class="total">
+            <td class="label">Annual cost · mid-sized client</td>
+            <td class="numeric">$750k to $1M</td>
+            <td class="numeric our-price">$400k to $450k</td>
+            <td class="numeric savings-col">40 to 55%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="compare-summary">
+      <div class="compare-stat">
+        <div class="compare-stat-num">40<em>-</em>55%</div>
+        <div class="compare-stat-label">Total Annual Savings</div>
+      </div>
+      <div class="compare-stat">
+        <div class="compare-stat-num">Days</div>
+        <div class="compare-stat-label">To European Ports</div>
+      </div>
+      <div class="compare-stat">
+        <div class="compare-stat-num">100%</div>
+        <div class="compare-stat-label">Bonded Re-Export</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- IDEAL FOR -->
 <section id="ideal" class="ideal">
